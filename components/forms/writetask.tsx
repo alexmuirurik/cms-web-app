@@ -72,7 +72,7 @@ const WriteTask = ({ task }: { task: Task }) => {
                                         'bold italic forecolor | alignleft aligncenter ' +
                                         'alignright alignjustify | bullist numlist outdent indent | ' +
                                         'removeformat',
-                                    content_style: 'body { font-family:mono; font-size:16px }'
+                                    content_style: 'body { font-family:\'Nunito\'; font-size:16px }'
                                 }}
                             />
                         </FormControl>

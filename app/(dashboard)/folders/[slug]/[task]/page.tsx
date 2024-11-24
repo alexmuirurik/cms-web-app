@@ -22,8 +22,8 @@ const SingleTaskPage = async ({ params }: {params: { slug: string; task: string}
         <div className="page-wrapper">
             <PageHeader title='Task' description='540+ Words' >
                 <div className="flex items-center gap-2">
-                    <Button className="w-full bg-red-500 hover:bg-red-700">Reject</Button>
                     <Button className="w-full" variant='outline'>Approve</Button>
+                    <Button className="w-full bg-red-500 hover:bg-red-700">Reject</Button>
                 </div>
             </PageHeader>
             <div className="flex gap-4">

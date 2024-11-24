@@ -1,7 +1,9 @@
 import { z } from "zod";
 
 export const inviteWriterFormSchema = z.object({ 
-    email: z.string().email() 
+    email: z.string().email(),
+    userId: z.string(),
+    companyId: z.string()
 })
 
 export const companyFormSchema = z.object({

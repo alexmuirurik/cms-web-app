@@ -67,16 +67,6 @@ const AddTask = ({ company, folder }: { company: Company, folder?: Folder }) => 
                                     </FormControl>
                                 </FormItem>
                             )} />
-
-                            <FormField control={form.control} name='wordcount' render={({ field }) => (
-                                <FormItem className="w-full">
-                                    <FormLabel className="text-right text-gray-300 mb-2" >WordCount</FormLabel>
-                                    <FormControl >
-                                        <Input type='number' min={500} max={10000} step={100}  {...field}
-                                            className="border-gray-600 text-gray-300 placeholder:text-gray-500 w-full" />
-                                    </FormControl>
-                                </FormItem>
-                            )} />
                         </div>
 
                         <FormField control={form.control} name='instructions' render={({ field }) => (
@@ -94,8 +84,8 @@ const AddTask = ({ company, folder }: { company: Company, folder?: Folder }) => 
                                     <FormLabel className="text-right text-gray-300 w-full mb-2" >Deadline</FormLabel>
                                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                                         <FormControl>
-                                            <SelectTrigger className="border-gray-600 text-gray-300 placeholder:text-gray-500 w-full">
-                                                <SelectValue placeholder="Assign Deadline after writer takes task" />
+                                            <SelectTrigger className="border-gray-600 text-gray-300 placeholder:!text-gray-500 w-full">
+                                                <SelectValue className="text-gray-300 placeholder:text-gray-500" placeholder="Writer Deadline" />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent className="bg-neutral-800 border-gray-600 text-gray-300">
@@ -107,11 +97,13 @@ const AddTask = ({ company, folder }: { company: Company, folder?: Folder }) => 
                                 </FormItem>
                             )} />
 
-                            <FormField control={form.control} name='folderId' render={({ field }) => (
+                            <FormField control={form.control} name='wordcount' render={({ field }) => (
                                 <FormItem className="w-full">
-                                    <FormLabel className="text-right text-gray-300 w-full mb-2" >Folder</FormLabel>
+                                    <FormLabel className="text-right text-gray-300 mb-2" >WordCount</FormLabel>
                                     <FormControl >
-                                        <Input className="border-gray-600 text-gray-300 placeholder:text-gray-500 w-full" defaultValue={folder?.title} readOnly />
+                                        <Input type='number' min={500} max={10000} step={100} placeholder="1000"  {...field}
+                                            className="border-gray-600 text-gray-300 placeholder:text-gray-500 w-full" 
+                                        />
                                     </FormControl>
                                 </FormItem>
                             )} />

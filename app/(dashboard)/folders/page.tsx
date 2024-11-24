@@ -1,8 +1,5 @@
 import React from 'react'
 import PageHeader from '@/components/layouts/PageHeader'
-import { FaFolderOpen } from 'react-icons/fa'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
 import AddFolder from '@/components/forms/addfolder'
 import { auth } from '@/auth'
 import { getCompany } from '@/actions/companyController'

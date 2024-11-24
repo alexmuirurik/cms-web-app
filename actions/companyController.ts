@@ -3,6 +3,7 @@ import { slugify } from "@/lib/utils"
 import prisma from "@/prisma/prisma"
 import { companyFormSchema } from "@/prisma/schema"
 import { z } from "zod"
+import { createWriter } from "./userController"
 
 export const getCompany = async ( userId: string ) => {
     try {
@@ -24,8 +25,7 @@ export const createCompany = async (data: z.infer<typeof companyFormSchema>) => 
     try{
         const company = await getCompany(data.userId)
         if( company ) return updateCompany(data, company.slug)
-    
-        const createcompany = await prisma.company.create({ data: {
+        const createdcompany = await prisma.company.create({ data: {
             title: data.title,
             slug: slugify(data.title),
             description: data.description,
@@ -38,7 +38,8 @@ export const createCompany = async (data: z.infer<typeof companyFormSchema>) => 
             }
         }})
 
-        return createcompany
+        const writer = await createWriter({ userId: data.userId, email: data.userId, companyId: createdcompany.id })
+        return createdcompany
     } catch (err) {
         console.log('We faced an error creating a company ' + err)
     }
