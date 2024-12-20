@@ -4,7 +4,7 @@ import { inviteWriterFormSchema } from "@/prisma/schema";
 import GreetingsEmail from "@/components/emails/greetings";
 import { createWriter } from "./userController";
 
-export const resend = new Resend(process.env.RESEND_API_KEY)
+export const resend = new Resend(process.env.RESEND_API_KEY ?? 'ddsds')
 
 export const inviteWriter = async (Invitedata: z.infer<typeof inviteWriterFormSchema>) => {
     try {
