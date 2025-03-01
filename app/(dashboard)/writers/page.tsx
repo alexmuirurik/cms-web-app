@@ -15,7 +15,7 @@ const Writers = async () => {
     const writers = await getWriters(company.id) ?? []
     return (
         <div className="page-wrapper">
-            <PageHeader title='Writers' description='540+' >
+            <PageHeader title='Writers' description={`${writers.length}`} >
                 <div className="flex items-center gap-2">
                     <input type="text" className="bg-transparent focus-within:!ring-0 border text-sm ps-5 py-2" placeholder="Search" />
                     <InviteWriter />

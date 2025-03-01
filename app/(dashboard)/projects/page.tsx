@@ -7,7 +7,7 @@ import { redirect } from 'next/navigation'
 import FolderCard from '@/components/cards/foldercard'
 import { getFolders } from '@/actions/FolderController'
 
-const Folders = async () => {
+const Projects = async () => {
     const session = await auth()
     const company = await getCompany(session?.user?.id as string)
     if(!company) return redirect('/settings')
@@ -15,7 +15,7 @@ const Folders = async () => {
     const folders = await getFolders(company.id) ?? []
     return (
         <div className="page-wrapper">
-            <PageHeader title='Folders' description={String(folders.length)} >
+            <PageHeader title='Projects' description={String(folders.length)} >
                 <div className="flex items-center gap-2">
                     <input type="text" className="bg-transparent focus-within:!ring-0 border text-sm ps-5 py-2" placeholder="Search" />
                     <AddFolder company={company} />
@@ -31,4 +31,4 @@ const Folders = async () => {
     )
 }
 
-export default Folders
+export default Projects

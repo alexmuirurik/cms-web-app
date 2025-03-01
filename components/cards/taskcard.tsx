@@ -1,27 +1,53 @@
 'use client'
 import React, { useState } from 'react'
-import { TableCell, TableRow } from "@/components/ui/table"
-import { FaFileWord } from 'react-icons/fa'
-import { Checkbox } from '../ui/checkbox'
 import { Folder, Task } from '@prisma/client'
+import TasksTableHeader from './tasksheader'
+import { Checkbox } from '../ui/checkbox'
 import Link from 'next/link'
-import { toTitleCase } from '@/lib/utils'
+import { TaskWithFolder } from '@/prisma/types'
 
-const TaskCard = ({ folder, tasks }: { folder: Folder, tasks: Task[] | [] }) => {
-    const [checked, setChecked] = useState(new Map)
-    return tasks.map((task, index) => (
-        <TableRow key={task.id} className='border-b items-center'>
-            <TableCell className="flex items-center font-medium capitalize ps-0">
-                <Checkbox className='me-2 border-gray-400 data-[state=checked]:bg-teal-600 ' />
-                <Link className='flex items-center gap-2' href={'/folders/' + folder.slug + '/' + task.slug}>
-                    <span className='font-bold'>{task.title}</span>
-                </Link>
-            </TableCell>
-            <TableCell>{task.wordcount} Words</TableCell>
-            <TableCell className='text-xs text-teal-600 font-semibold'>{toTitleCase(task.status)}</TableCell>
-            <TableCell className="text-right">{task.createdAt.toDateString()}</TableCell>
-        </TableRow>
-    ))
+const TaskCard = ({ tasks }: { tasks: TaskWithFolder[] }) => {
+    const [checked, setChecked] = useState(new Map())
+    return (
+        <div className="space-y-2">
+            <TasksTableHeader />
+            {tasks.map((task) => {
+                return (
+                    <div className="flex items-center gap-2 border p-1">
+                        <div className="flex items-center gap-2 border-e rounded-none p-2 w-4/12">
+                            <Checkbox className="me-2 border-gray-400 data-[state=checked]:bg-teal-600 " />
+                            <Link 
+                                href={`/projects/${task.folder.slug}/${task.slug}`}
+                                className="text-teal-800 hover:text-teal-500 text-sm font-bold"
+                            >
+                                {task.title}
+                            </Link>
+                        </div>
+                        <div className="border-e rounded-none p-1 w-2/12 overflow-x-hidden">
+                            <span className="text-neutral-600 text-xs text-nowrap">
+                                {task.writerId ?? 'Unassigned'}
+                            </span>
+                        </div>
+                        <div className="border-e rounded-none p-1 w-2/12 overflow-x-hidden">
+                            <span className="text-neutral-600 text-xs text-nowrap">
+                                {task.editorId ?? 'Unassigned'}
+                            </span>
+                        </div>
+                        <div className="border-e rounded-none p-1 w-2/12 overflow-x-hidden">
+                            <span className="text-neutral-600 text-sm text-nowrap">
+                                {task.deadline} Days
+                            </span>
+                        </div>
+                        <div className="border-e rounded-none p-1 w-2/12 overflow-x-hidden">
+                            <span className="text-neutral-600 text-xs text-nowrap">
+                                {task.status}
+                            </span>
+                        </div>
+                    </div>
+                )
+            })}
+        </div>
+    )
 }
 
-export default TaskCard;
+export default TaskCard

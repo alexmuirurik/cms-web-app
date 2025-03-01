@@ -5,3 +5,9 @@ export type WriterWithUser = Prisma.WriterGetPayload<{
         user: true
     }
 }>
+
+export type TaskWithFolder = Prisma.TaskGetPayload<{
+    include: {
+        folder: true
+    }
+}>

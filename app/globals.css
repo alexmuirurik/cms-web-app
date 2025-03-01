@@ -46,7 +46,7 @@
 	}
 
 	::-webkit-scrollbar-thumb {
-		@apply bg-teal-600 border border-gray-300 w-2 rounded-lg
+		@apply bg-neutral-300 border border-gray-300 w-1 rounded-lg
 	}
 
 	:root {

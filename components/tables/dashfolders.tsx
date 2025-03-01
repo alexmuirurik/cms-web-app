@@ -1,5 +1,14 @@
-import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow,} from "@/components/ui/table"
-import { folders } from "@/lib/sampledata"
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableFooter,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table'
+import { folders } from '@/lib/sampledata'
 
 const DashFolders = () => {
     return (
@@ -15,10 +24,14 @@ const DashFolders = () => {
             <TableBody>
                 {folders.map((invoice) => (
                     <TableRow key={invoice.invoice}>
-                        <TableCell className="font-medium">{invoice.invoice}</TableCell>
+                        <TableCell className="font-medium">
+                            {invoice.invoice}
+                        </TableCell>
                         <TableCell>{invoice.paymentStatus}</TableCell>
                         <TableCell>{invoice.paymentMethod}</TableCell>
-                        <TableCell className="text-right">{invoice.totalAmount}</TableCell>
+                        <TableCell className="text-right">
+                            {invoice.totalAmount}
+                        </TableCell>
                     </TableRow>
                 ))}
             </TableBody>

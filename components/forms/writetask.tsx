@@ -78,13 +78,6 @@ const WriteTask = ({ task }: { task: Task }) => {
                         </FormControl>
                     </FormItem>
                 )} />
-
-                <div className="flex !justify-end ">
-                    <LoadingButton loading={loading} type="submit" className=" border-teal-600 text-teal-600" variant='outline'>
-                        Save Progress
-                    </LoadingButton>
-                </div>
-
             </form>
         </Form>
     );

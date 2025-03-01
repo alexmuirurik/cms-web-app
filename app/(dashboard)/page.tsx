@@ -1,9 +1,9 @@
 import React from 'react'
 import { getCompany } from '@/actions/companyController'
 import { auth } from '@/auth'
-import DashChart from '@/components/cards/dashchart'
-import FolderDetails from '@/components/cards/folderdetails'
-import TitleCards from '@/components/cards/titlecards'
+import DashChart from '@/components/dash/dashchart'
+import FolderDetails from '@/components/dash/folderdetails'
+import TitleCards from '@/components/dash/titlecards'
 import { redirect } from 'next/navigation'
 
 
