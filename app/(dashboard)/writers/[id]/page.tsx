@@ -4,9 +4,9 @@ import AddTask from '@/components/forms/addtask'
 import { auth } from '@/auth'
 import { getCompany } from '@/actions/companyController'
 import { notFound, redirect } from 'next/navigation'
-import { getFolderTasks } from '@/actions/taskController'
+import { getWriterTasks } from '@/actions/taskController'
 import TaskCard from '@/components/cards/taskcard'
-import { getWriterByID, getWriterTasks } from '@/actions/userController'
+import { getWriterByID } from '@/actions/userController'
 
 const SingleWriter = async ({ params }: { params: { id: string } }) => {
     const session = await auth()
