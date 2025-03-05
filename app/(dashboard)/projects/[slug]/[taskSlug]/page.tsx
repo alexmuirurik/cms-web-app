@@ -24,9 +24,20 @@ const SingleTaskPage = async ({
 
     return (
         <div className="page-wrapper">
-            <PageHeader title={task.title} description={`${task.wordcount} Words`}>
-                <div className="text-sm text-center border p-2">
-                    <span>{task.status.replace('-', ' ')}</span>
+            <PageHeader
+                title={task.title}
+                description={`${task.wordcount} Words`}
+            >
+                <div className="flex items-center gap-2">
+                    <Button
+                        className="text-sm text-center capitalize border p-2 w-full"
+                        variant="outline"
+                    >
+                        {task.status.replace('-', ' ')}
+                    </Button>
+                    <Button className="w-full bg-red-700 hover:bg-red-500 ">
+                        Delete
+                    </Button>
                 </div>
             </PageHeader>
             <div className="flex gap-4">
