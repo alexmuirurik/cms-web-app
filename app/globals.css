@@ -42,11 +42,11 @@
 	}
 
 	::-webkit-scrollbar {
-		@apply bg-zinc-100 h-4 w-2 mt-px
+		@apply bg-[#171c35] h-4 w-2 mt-px
 	}
 
 	::-webkit-scrollbar-thumb {
-		@apply bg-neutral-300 border border-gray-300 w-1 rounded-lg
+		@apply bg-neutral-700 border border-gray-300 w-1 rounded-lg
 	}
 
 	:root {
@@ -68,6 +68,10 @@
 
 
 @layer utilities {
+	.section {
+		@apply py-8 sm:py-16 lg:py-24 scroll-mt-24
+	}
+
 	.row {
 		@apply grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4
 	}

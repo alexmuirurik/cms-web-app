@@ -4,6 +4,9 @@ export { auth as middleware } from "auth"
 // export default auth((req) => {
 //   console.log(req.auth) //  { session: { user: { ... } } }
 // })
+export default function proxy(req: any, res: any) {
+  // Proxy logic
+}
 
 // Read more: https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
 export const config = {
