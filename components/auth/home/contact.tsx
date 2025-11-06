@@ -17,7 +17,7 @@ const Contact = () => {
 
     return (
         <section id="contact" className="contact section space-y-6">
-            <div className="container flex flex-col items-center justify-center section-title space-y-4">
+            <div className="flex flex-col items-center justify-center section-title space-y-4 mx-28">
                 <h2 className="text-4xl font-bold border-b border-gray-300 rounded-none">
                     Contact
                 </h2>
@@ -27,7 +27,7 @@ const Contact = () => {
                 </p>
             </div>
 
-            <div className="container">
+            <div className="mx-28">
                 <div className="flex items-center justify-between gap-2 w-full h-full mb-5">
                     <Form {...form}>
                         <form

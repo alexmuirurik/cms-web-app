@@ -1,14 +1,16 @@
+'use client'
 import { LoadingButton } from '@/components/ui/loadingbtn'
 import {
     ArrowRightIcon,
-    CheckCircle,
     CheckCircle2,
     PlayCircle,
 } from 'lucide-react'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { BsGraphUp, BsLightning } from 'react-icons/bs'
 
 const Hero = () => {
+    const router = useRouter()
     return (
         <section
             id="hero"
@@ -45,7 +47,7 @@ const Hero = () => {
                         </li>
                     </ul>
                     <div className="flex gap-4">
-                        <LoadingButton className="bg-blue-900 px-12 py-6 rounded-lg">
+                        <LoadingButton className="bg-blue-900 px-12 py-6 rounded-lg" onClick={() => router.push('/login')}>
                             <span className="text-white font-bold">Login</span>
                             <ArrowRightIcon className="ml-2 h-4 w-4" />
                         </LoadingButton>
