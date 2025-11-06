@@ -2,7 +2,7 @@
 import React from 'react'
 import { Folder, Task } from '@prisma/client'
 
-const TaskDetails = ({ folder, task }: { folder: Folder; task: Task }) => {
+const TaskDetails = ({ task }: { task: Task }) => {
     return (
         <div className="left space-y-2">
             <div className="">

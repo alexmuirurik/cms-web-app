@@ -1,5 +1,4 @@
 'use client'
-import React from 'react'
 import Link from 'next/link';
 import { FaCommentsDollar, FaCreditCard, FaFolder,FaHandHoldingUsd,FaHeartbeat, FaUsers } from 'react-icons/fa';
 import { usePathname } from 'next/navigation';
@@ -14,9 +13,9 @@ export type Route = {
 export const routes: Route[] = [
     {
         icon: <FaHeartbeat className='relative float-left text-center w-8.5 mr-4 text-xl' />,
-        name: "Overview",
-        title: 'Overview',
-        link: "/",
+        name: "Dashboard",
+        title: 'Dashboard',
+        link: "/dashboard",
     },
     {
         icon: <FaFolder className='relative float-left text-center w-8.5 mr-4 text-xl' />,

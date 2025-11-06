@@ -18,36 +18,17 @@ export const getTask = async (slug: string) => {
     }
 }
 
-export const getEditorTasks = async (editorId: string) => {
+export const getTasks = async (companyId: string) => {
     try {
         const tasks = await prisma.task.findMany({
             where: {
-                editorId: editorId,
-            },
-            include: {
-                editor: true,
+                companyId: companyId,
             },
         })
 
         return tasks
     } catch (err) {
         console.log('We faced an error getting folder tasks ' + err)
-    }
-}
-
-export const getWriterTasks = async (writerId: string) => {
-    try {
-        const tasks = await prisma.task.findMany({
-            where: {
-                writerId: writerId,
-            },
-            include: {
-                folder: true,
-            },
-        })
-        return tasks
-    } catch (error) {
-        console.log('Error Getting Writer Tasks', error)
     }
 }
 

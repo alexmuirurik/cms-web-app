@@ -1,19 +1,52 @@
-import { getCompany } from '@/actions/companyController'
-import { getWriterTasks } from '@/actions/taskController'
 import { auth } from '@/auth'
-import { redirect } from 'next/navigation'
+import { getCompany } from '@/actions/companyController'
+import { notFound, redirect } from 'next/navigation'
+import PageHeader from '@/components/layouts/PageHeader'
+import { Button } from '@/components/ui/button'
+import WriteTask from '@/components/forms/writetask'
+import TaskDetails from '@/components/cards/taskdetails'
+import { getTask } from '@/actions/taskController'
 
-const TaskPage = async () => {
+const SingleTaskPage = async ({
+    params,
+}: {
+    params: Promise<{ task: string }>
+}) => {
     const session = await auth()
     const company = await getCompany(session?.user?.id as string)
     if (!company) return redirect('/settings')
-    const tasks = await getWriterTasks(session?.user?.id as string)
+
+    const task = await getTask((await params).task)
+    if (!task) return notFound()
 
     return (
-        <div className="main ">
-            <h1>Task</h1>
+        <div className="page-wrapper">
+            <PageHeader
+                title={task.title}
+                description={`${task.wordcount} Words`}
+            >
+                <div className="flex items-center gap-2">
+                    <Button
+                        className="text-sm text-center capitalize border p-2 w-full"
+                        variant="outline"
+                    >
+                        {task.status.replace('-', ' ')}
+                    </Button>
+                    <Button className="w-full bg-red-700 hover:bg-red-500 ">
+                        Delete
+                    </Button>
+                </div>
+            </PageHeader>
+            <div className="flex gap-4">
+                <div className="sm:order-2 w-full sm-5/12 md:w-4/12 lg:w-3/12">
+                    <TaskDetails task={task} />
+                </div>
+                <div className="w-full sm-7/12 md:w-8/12 lg:w-9/12">
+                    <WriteTask task={task} />
+                </div>
+            </div>
         </div>
     )
 }
 
-export default TaskPage
+export default SingleTaskPage
