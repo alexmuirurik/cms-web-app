@@ -8,7 +8,7 @@ const AuthLayout = async ({
     children,
 }: Readonly<{ children: React.ReactNode }>) => {
     const session = await auth()
-    if (session?.user) return redirect('/')
+    if (session?.user) return redirect('/dashboard')
     return (
         <div className="relative">
             <Navbar />

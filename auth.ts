@@ -19,7 +19,7 @@ export const config = {
 			authorize: (credentials) => {
 				const user = {
 					username: 'alexmuiruri',
-					email: 'dkl@gmail.com'
+					email: 'alexmuiruri@gmail.com'
 				}
 				return user 
 			}

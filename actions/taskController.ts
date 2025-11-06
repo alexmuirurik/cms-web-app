@@ -1,37 +1,37 @@
 'use server'
-import { slugify } from "@/lib/utils"
-import prisma from "@/prisma/prisma"
-import { taskFormSchema, writeTaskFormSchema } from "@/prisma/schema"
-import { z } from "zod"
+import { slugify } from '@/lib/utils'
+import prisma from '@/prisma/prisma'
+import { taskFormSchema, writeTaskFormSchema } from '@/prisma/schema'
+import { z } from 'zod'
 
 export const getTask = async (slug: string) => {
     try {
-        const task = await prisma.task.findUnique({ 
+        const task = await prisma.task.findUnique({
             where: {
-                slug: slug
-            }
+                slug: slug,
+            },
         })
-        
+
         return task
     } catch (err) {
         console.log('We faced an error getting a single task ' + err)
     }
 }
 
-export const getFolderTasks = async (folderId: string) => {
-    try { 
-        const tasks = await prisma.task.findMany({ 
+export const getEditorTasks = async (editorId: string) => {
+    try {
+        const tasks = await prisma.task.findMany({
             where: {
-                folderId: folderId
+                editorId: editorId,
             },
             include: {
-                folder: true
-            }
+                editor: true,
+            },
         })
-        
+
         return tasks
     } catch (err) {
-        console.log('We faced an error getting folder tasks ' + err )
+        console.log('We faced an error getting folder tasks ' + err)
     }
 }
 
@@ -42,8 +42,8 @@ export const getWriterTasks = async (writerId: string) => {
                 writerId: writerId,
             },
             include: {
-                folder: true
-            }
+                folder: true,
+            },
         })
         return tasks
     } catch (error) {
@@ -51,11 +51,11 @@ export const getWriterTasks = async (writerId: string) => {
     }
 }
 
-export const createTask = async ( data: z.infer<typeof taskFormSchema> ) => {
+export const createTask = async (data: z.infer<typeof taskFormSchema>) => {
     try {
         const createtask = await prisma.task.upsert({
-            where: { 
-                slug: slugify(data.title)
+            where: {
+                slug: slugify(data.title),
             },
             update: {
                 title: slugify(data.title),
@@ -64,23 +64,23 @@ export const createTask = async ( data: z.infer<typeof taskFormSchema> ) => {
                 wordcount: Number(data.wordcount),
             },
             create: {
-                slug: slugify(data.title), 
+                slug: slugify(data.title),
                 title: data.title,
                 instructions: data.instructions,
                 wordcount: Number(data.wordcount),
                 deadline: Number(data.deadline),
                 status: data.status,
                 folder: {
-                    connect: { 
-                        id: data.folderId
-                    }
+                    connect: {
+                        id: data.folderId,
+                    },
                 },
-                company: { 
-                    connect: { 
-                        id: data.companyId 
-                    }
-                }
-            }
+                company: {
+                    connect: {
+                        id: data.companyId,
+                    },
+                },
+            },
         })
 
         return createtask
@@ -93,12 +93,12 @@ export const updateTask = async (data: z.infer<typeof writeTaskFormSchema>) => {
     try {
         const updatetask = await prisma.task.update({
             where: {
-                slug: data.slug
+                slug: data.slug,
             },
             data: {
                 title: data.title,
-                content: data.content
-            }
+                content: data.content,
+            },
         })
 
         return updatetask

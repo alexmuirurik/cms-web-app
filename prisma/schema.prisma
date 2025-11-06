@@ -146,7 +146,7 @@ model Task {
 	content				String? @db.String
 	status				String
 	deadline			Int
-	folderId			String @db.ObjectId
+	folderId			String? @db.ObjectId
 	companyId			String @db.ObjectId
 	editorId			String? @db.ObjectId
 	writerId			String? @db.ObjectId
@@ -154,7 +154,7 @@ model Task {
 	writer				Writer? @relation(fields: [writerId], references: [id])
 	editor				Editor? @relation(fields: [editorId], references: [id])
 	invoice				Invoice? @relation(fields: [invoiceId], references: [id])
-	folder				Folder @relation(fields: [folderId], references: [id])
+	folder				Folder? @relation(fields: [folderId], references: [id])
 	company				Company @relation(fields: [companyId], references: [id])
 	createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt

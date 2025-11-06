@@ -20,9 +20,9 @@ export const routes: Route[] = [
     },
     {
         icon: <FaFolder className='relative float-left text-center w-8.5 mr-4 text-xl' />,
-        name: "Projects",
-        title: "Projects",
-        link: "/projects",
+        name: "Tasks",
+        title: "Tasks",
+        link: "/tasks",
     },
     {
         icon: <FaUsers className='relative float-left text-center w-8.5 mr-4 text-xl' />,
