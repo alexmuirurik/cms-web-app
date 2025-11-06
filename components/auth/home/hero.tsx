@@ -10,7 +10,10 @@ import { BsGraphUp, BsLightning } from 'react-icons/bs'
 
 const Hero = () => {
     return (
-        <section className="bg-[#171c35] h-screen w-full sm:pt-52 sm:pb-24 lg:pb-32 text-white rounded-none">
+        <section
+            id="hero"
+            className="bg-[#171c35] h-screen w-full sm:pt-52 sm:pb-24 lg:pb-32 text-white rounded-none"
+        >
             <div className="flex items-center justify-between mx-28">
                 <div className="space-y-4 w-5/12">
                     <span className="bg-blue-950 flex items-center space-x-2 p-2 w-fit text-lg rounded-xl border border-blue-800">

@@ -10,9 +10,6 @@ const HomePage = () => {
         <div className="main ">
             <Navbar />
             <Hero />
-            <About />
-            <Services />
-            <Features />
             <Contact />
         </div>
     )
