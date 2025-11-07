@@ -38,14 +38,14 @@ const CardTasks = ({ tasks }: { tasks: Task[] }) => {
             </TableHeader>
             <TableBody className="border-t border-gray-200 rounded-md">
                 {tasks.map((task) => (
-                    <TableRow key={task.slug} className="items-center">
+                    <TableRow key={task.id} className="items-center">
                         <TableCell className="border-e border-gray-200 w-px ps-5 pe-2">
                             <Checkbox className="me-2 border-gray-400 data-[state=checked]:bg-teal-600 " />
                         </TableCell>
                         <TableCell className="items-center">
                             <Link
                                 className="flex items-center gap-2 text-neutral-500 hover:text-blue-950 font-bold"
-                                href={`/tasks/${task.slug}`}
+                                href={`/tasks/${task.id}`}
                             >
                                 <FaBuffer className="text-base text-blue-600" />
                                 {task.title}

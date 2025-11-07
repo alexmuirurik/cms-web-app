@@ -4,6 +4,26 @@ import prisma from '@/prisma/prisma'
 import { taskFormSchema, writeTaskFormSchema } from '@/prisma/schema'
 import { z } from 'zod'
 
+export const getTaskById = async (taskId: string) => {
+    try {
+        const task = await prisma.task.findUnique({
+            where: {
+                id: taskId,
+            },
+            include: {
+                category: true,
+                writer: true,
+                editor: true,
+                invoice: true,
+            },
+        })
+
+        return task
+    } catch (err) {
+        console.log('We faced an error getting a single task ' + err)
+    }
+}
+
 export const getTask = async (slug: string) => {
     try {
         const task = await prisma.task.findUnique({
@@ -34,28 +54,14 @@ export const getTasks = async (companyId: string) => {
 
 export const createTask = async (data: z.infer<typeof taskFormSchema>) => {
     try {
-        const createtask = await prisma.task.upsert({
-            where: {
-                slug: slugify(data.title),
-            },
-            update: {
-                title: slugify(data.title),
-                instructions: data.instructions,
-                deadline: Number(data.deadline),
-                wordcount: Number(data.wordcount),
-            },
-            create: {
+        const createtask = await prisma.task.create({
+            data: {
                 slug: slugify(data.title),
                 title: data.title,
                 instructions: data.instructions,
                 wordcount: Number(data.wordcount),
                 deadline: Number(data.deadline),
                 status: data.status,
-                category: {
-                    connect: {
-                        id: data.categoryId,
-                    },
-                },
                 company: {
                     connect: {
                         id: data.companyId,
@@ -85,5 +91,19 @@ export const updateTask = async (data: z.infer<typeof writeTaskFormSchema>) => {
         return updatetask
     } catch (err) {
         console.log('We faced an error updating a task ' + err)
+    }
+}
+
+export const deleteTask = async (taskId: string) => {
+    try {
+        const deletetask = await prisma.task.delete({
+            where: {
+                id: taskId,
+            },
+        })
+
+        return deletetask
+    } catch (err) {
+        console.log('We faced an error deleting a task ' + err)
     }
 }

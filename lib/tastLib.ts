@@ -1,4 +1,7 @@
-import AssignWriter from "@/components/forms/assignWriter";
+import AssignWriter from '@/components/forms/assignWriter'
+import DeleteTask from '@/components/forms/deleteTask'
+import { WriterWithUser } from '@/prisma/types'
+import { Task, Writer } from '@prisma/client'
 
 export enum TaskActions {
     ASSIGN_WRITER = 'ASSIGN_WRITER',
@@ -22,7 +25,22 @@ export enum UserRole {
     EDITOR = 'EDITOR',
 }
 
-export const taskActions = [
+type TaskAction = {
+    status: TaskStatus
+    actions: {
+        value: TaskActions
+        authorized: UserRole[]
+        component: ({
+            task,
+            writers,
+        }: {
+            task: Task
+            writers: WriterWithUser[]
+        }) => JSX.Element
+    }[]
+}
+
+export const taskActions: TaskAction[] = [
     {
         status: TaskStatus.PENDING_WRITER,
         actions: [
@@ -34,13 +52,13 @@ export const taskActions = [
             {
                 value: TaskActions.DELETE_TASK,
                 authorized: [UserRole.ADMIN],
-                component: 'DeleteTask',
+                component: DeleteTask,
             },
             {
                 value: TaskActions.CLAIM_ARTICLE,
                 authorized: [UserRole.WRITER],
-                component: 'ClaimArticle',
-            }
+                component: DeleteTask,
+            },
         ],
     },
     {
@@ -49,7 +67,7 @@ export const taskActions = [
             {
                 value: TaskActions.APPROVE_CONTENT,
                 authorized: [UserRole.EDITOR, UserRole.ADMIN],
-                component: 'ApproveContent',
+                component: DeleteTask,
             },
         ],
     },
@@ -59,7 +77,7 @@ export const taskActions = [
             {
                 value: TaskActions.DELETE_TASK,
                 authorized: [UserRole.EDITOR, UserRole.ADMIN],
-                component: 'DeleteTask',
+                component: DeleteTask,
             },
         ],
     },
@@ -69,7 +87,7 @@ export const taskActions = [
             {
                 value: TaskActions.DELETE_TASK,
                 authorized: [UserRole.WRITER, UserRole.ADMIN],
-                component: 'DeleteTask',
+                component: DeleteTask,
             },
         ],
     },
@@ -79,7 +97,7 @@ export const taskActions = [
             {
                 value: TaskActions.DELETE_TASK,
                 authorized: [UserRole.WRITER, UserRole.ADMIN],
-                component: 'DeleteTask',
+                component: DeleteTask,
             },
         ],
     },

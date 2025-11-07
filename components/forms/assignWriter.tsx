@@ -77,10 +77,10 @@ const AssignWriter = ({
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onFormSubmit)}>
+                <form className='w-full' onSubmit={form.handleSubmit(onFormSubmit)}>
                     <DialogTrigger asChild>
-                        <Button className="bg-teal-600 hover:bg-teal-500">
-                            Assign Writer
+                        <Button className="bg-teal-600 hover:bg-teal-500 w-full">
+                            <span className='text-nowrap'>Assign Writer</span>
                         </Button>
                     </DialogTrigger>
                     <DialogContent className="bg-neutral-800 border-gray-600">
