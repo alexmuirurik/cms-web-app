@@ -25,6 +25,20 @@ export const config = {
 			}
 		})
 	],
+	callbacks: {
+		async jwt({ token, user }) {
+			if (user) {
+				token.role = user.role
+			}
+			return token
+		},
+		async session({ session, token }) {
+			if(token && session.user) {
+				session.user.role = token.role
+			}
+			return session
+		},
+	},
 	debug: false,
 	secret: process.env.NEXTAUTH_SECRET, // To be added
 } satisfies NextAuthConfig

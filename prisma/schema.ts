@@ -36,3 +36,7 @@ export const writeTaskFormSchema = z.object({
     title: z.string(),
     content: z.string(),
 })
+
+export const messageFormSchema = z.object({
+    message: z.string(),
+})

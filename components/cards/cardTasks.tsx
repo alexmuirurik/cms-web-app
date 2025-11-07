@@ -5,19 +5,20 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table'
-import { FaBuffer, FaChartBar } from 'react-icons/fa'
+import { FaBuffer } from 'react-icons/fa'
 import { Checkbox } from '../ui/checkbox'
 import Link from 'next/link'
 import { Task } from '@prisma/client'
 import { trimWords } from '@/lib/utils'
+import { LoadingButton } from '../ui/loadingbtn'
 
 const CardTasks = ({ tasks }: { tasks: Task[] }) => {
     return (
         <Table>
             <TableHeader>
                 <TableRow>
-                    <TableCell className="border-e border-gray-200 w-px p-5 rounded-none">
-                        <FaChartBar className="me-2 border-gray-400 data-[state=checked]:bg-teal-600 " />
+                    <TableCell className="border-e border-gray-200 w-px px-5 rounded-none">
+                        <Checkbox className="me-2 border-gray-400 data-[state=checked]:bg-teal-600 " />
                     </TableCell>
                     <TableCell className="flex items-center gap-2 font-bold rounded-none capitalize">
                         <FaBuffer className="text-base" />
@@ -35,12 +36,12 @@ const CardTasks = ({ tasks }: { tasks: Task[] }) => {
                 </TableRow>
             </TableHeader>
             <TableBody className="border-t border-gray-200 rounded-md">
-                {tasks.map(task => (
+                {tasks.map((task) => (
                     <TableRow key={task.slug} className="items-center">
-                        <TableCell className="border-e border-gray-200 w-px p-1 pe-2">
+                        <TableCell className="border-e border-gray-200 w-px ps-5 pe-2">
                             <Checkbox className="me-2 border-gray-400 data-[state=checked]:bg-teal-600 " />
                         </TableCell>
-                        <TableCell className="flex items-center gap-2 font-medium capitalize">
+                        <TableCell className="items-center">
                             <Link
                                 className="flex items-center gap-2 text-neutral-500 hover:text-blue-950 font-bold"
                                 href={`/tasks/${task.slug}`}
@@ -49,12 +50,19 @@ const CardTasks = ({ tasks }: { tasks: Task[] }) => {
                                 {task.title}
                             </Link>
                         </TableCell>
-                        <TableCell>{trimWords(task.instructions, 10)}</TableCell>
+                        <TableCell>
+                            {trimWords(task.instructions, 10)}
+                        </TableCell>
                         <TableCell>{task.wordcount}</TableCell>
                         <TableCell className="text-end">
-                            <span className="bg-teal-200 border border-neutral-400 text-neutral-500 text-sm rounded-md px-2 py-1">
-                                {task.status.replaceAll('-', ' ')}
-                            </span>
+                            <LoadingButton
+                                className="bg-teal-500 hover:bg-teal-400 border border-neutral-400 text-sm rounded-md px-2 py-1"
+                                variant="default"
+                            >
+                                {task.status
+                                    .replaceAll('_', ' ')
+                                    .toLocaleLowerCase()}
+                            </LoadingButton>
                         </TableCell>
                     </TableRow>
                 ))}

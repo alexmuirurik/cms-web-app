@@ -17,6 +17,7 @@ const Messages = async () => {
 
     const writers = (await getWriters(company.id)) ?? []
     const messages = (await getMessages(company.id, session?.user?.id as string)) ?? []
+
     return (
         <div className="page-wrapper">
             <PageHeader title="Messages" description="540+">
@@ -42,7 +43,7 @@ const Messages = async () => {
                         <UserCard user={writers} />
                     </CardContent>
                 </Card>
-				<MessageCard />
+				<MessageCard messages={messages} />
             </div>
         </div>
     )
