@@ -80,11 +80,15 @@ export const updateTask = async (data: z.infer<typeof writeTaskFormSchema>) => {
     try {
         const updatetask = await prisma.task.update({
             where: {
-                slug: data.slug,
+                id: data.taskId,
             },
             data: {
                 title: data.title,
                 content: data.content,
+                writerId: data.writerId,
+                editorId: data.editorId,
+                invoiceId: data.invoiceId,
+                status: data.status,
             },
         })
 

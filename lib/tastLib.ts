@@ -12,6 +12,7 @@ export enum TaskActions {
 }
 
 export enum TaskStatus {
+    UNASSIGNED = 'UNASSIGNED',
     PENDING_WRITER = 'PENDING_WRITER',
     IN_PROGRESS = 'IN_PROGRESS',
     IN_REVIEW = 'IN_REVIEW',
@@ -25,9 +26,7 @@ export enum UserRole {
     EDITOR = 'EDITOR',
 }
 
-type TaskAction = {
-    status: TaskStatus
-    actions: {
+export type ActionsThemselves = {
         value: TaskActions
         authorized: UserRole[]
         component: ({
@@ -37,7 +36,16 @@ type TaskAction = {
             task: Task
             writers: WriterWithUser[]
         }) => JSX.Element
+    }
+
+export type TaskAction = {
+    status: TaskStatus
+    actions: ActionsThemselves[]
+    messages: {
+        role: UserRole
+        message: string
     }[]
+    color: string
 }
 
 export const taskActions: TaskAction[] = [
@@ -60,6 +68,18 @@ export const taskActions: TaskAction[] = [
                 component: DeleteTask,
             },
         ],
+        messages: [
+            {
+                role: UserRole.WRITER,
+                message: 'You can claim this task and start writing',
+            },
+            {
+                role: UserRole.ADMIN,
+                message: 'Assign this task to a writer so they can start writing',
+            }
+            
+        ],
+        color: 'bg-blue-600',
     },
     {
         status: TaskStatus.IN_PROGRESS,
@@ -70,6 +90,17 @@ export const taskActions: TaskAction[] = [
                 component: DeleteTask,
             },
         ],
+        messages: [
+            {
+                role: UserRole.WRITER,
+                message: 'You can approve this task and start writing',
+            },
+            {
+                role: UserRole.ADMIN,
+                message: 'Wait for the writer to finish writing and review the task',
+            }
+        ],
+        color: 'bg-teal-600',
     },
     {
         status: TaskStatus.IN_REVIEW,
@@ -80,16 +111,34 @@ export const taskActions: TaskAction[] = [
                 component: DeleteTask,
             },
         ],
+        messages: [
+            {
+                role: UserRole.ADMIN,
+                message: 'I don\'t know who\'s reviewing this task between you and your editor' 
+            }
+        ],
+        color: 'bg-yellow-600',
     },
     {
         status: TaskStatus.APPROVED,
         actions: [
             {
                 value: TaskActions.DELETE_TASK,
-                authorized: [UserRole.WRITER, UserRole.ADMIN],
+                authorized: [UserRole.ADMIN],
                 component: DeleteTask,
             },
         ],
+        messages: [
+            {
+                role: UserRole.WRITER,
+                message: 'Congratulations! You\'ve completed this task',
+            },
+            {
+                role: UserRole.ADMIN,
+                message: 'Congratulations! You\'ve completed this task',
+            },
+        ],
+        color: 'bg-green-600',
     },
     {
         status: TaskStatus.REJECTED,
@@ -100,5 +149,16 @@ export const taskActions: TaskAction[] = [
                 component: DeleteTask,
             },
         ],
+        messages: [
+            {
+                role: UserRole.WRITER,
+                message: 'Sorry, this task was rejected',
+            },
+            {
+                role: UserRole.ADMIN,
+                message: 'Sorry, this task wasn\'t up to the standards',
+            },
+        ],
+        color: 'bg-red-600',
     },
 ]

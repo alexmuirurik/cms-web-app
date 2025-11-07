@@ -21,7 +21,7 @@ const WriteTask = ({ task }: { task: Task }) => {
         defaultValues: {
             title: task.title,
             content:task.content ?? '',
-            slug: task.slug
+            taskId: task.id
         }
     })
     const handleChange = (value: any) => form.setValue('content', value?.currentTarget?.innerHTML)
@@ -44,7 +44,6 @@ const WriteTask = ({ task }: { task: Task }) => {
             <form onSubmit={form.handleSubmit(onFormSubmit)} className="grid gap-4" >
                 <FormField control={form.control} name='title' render={({ field }) => (
                     <FormItem className="w-full">
-                        <FormLabel className="" >Company Location</FormLabel>
                         <FormControl >
                             <Input className=" border-teal-600 w-full" defaultValue={newtask.title} {...field}  />
                         </FormControl>

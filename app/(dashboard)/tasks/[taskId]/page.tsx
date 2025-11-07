@@ -1,7 +1,6 @@
 import { auth } from '@/auth'
 import { getCompany } from '@/actions/companyController'
 import { notFound, redirect } from 'next/navigation'
-import PageHeader from '@/components/layouts/PageHeader'
 import WriteTask from '@/components/forms/writetask'
 import TaskDetails from '@/components/cards/taskdetails'
 import { getTaskById } from '@/actions/taskController'
@@ -22,29 +21,16 @@ const SingleTaskPage = async ({
 
     const writers = (await getWriters(company.id)) ?? []
     const actions = taskActions.find((action) => action.status === task.status)
-    const possibleActions = actions?.actions.filter((action) =>
-        action.authorized.includes(session?.user?.role as UserRole)
-    ) ?? []
+    const possibleActions =
+        actions?.actions.filter((action) =>
+            action.authorized.includes(session?.user?.role as UserRole)
+        ) ?? []
 
     return (
         <div className="page-wrapper">
-            <PageHeader
-                title={task.title}
-                description={`${task.wordcount} Words`}
-            >
-                <div className="flex items-center justify-between gap-2 w-full">
-                    {possibleActions.map((action) => (
-                        <action.component
-                            key={action.value}
-                            task={task}
-                            writers={writers}
-                        />
-                    ))}
-                </div>
-            </PageHeader>
             <div className="flex gap-4">
                 <div className="sm:order-2 w-full sm-5/12 md:w-4/12 lg:w-3/12">
-                    <TaskDetails task={task} />
+                    <TaskDetails task={task} possibleActions={possibleActions} writers={writers} user={session?.user} />
                 </div>
                 <div className="w-full sm-7/12 md:w-8/12 lg:w-9/12">
                     <WriteTask task={task} />

@@ -176,6 +176,7 @@ model Category {
 }
 
 enum CategoryStatus {
+    UNASSIGNED
     PENDING_WRITER
     IN_PROGRESS
     IN_REVIEW

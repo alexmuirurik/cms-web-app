@@ -14,16 +14,19 @@ import {
 import { Input } from '@/components/ui/input'
 import { assignWriterFormSchema } from '@/prisma/schema'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Task } from '@prisma/client'
+import { Task, WriterStatus } from '@prisma/client'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
-import { Form, FormControl, FormField, FormItem, FormLabel } from '../ui/form'
+import { Form, } from '../ui/form'
 import { WriterWithUser } from '@/prisma/types'
 import { useState } from 'react'
-import { FaBuffer } from 'react-icons/fa'
 import { Avatar } from '@radix-ui/react-avatar'
-import { AvatarFallback, AvatarImage } from '../ui/avatar'
+import { AvatarImage } from '../ui/avatar'
 import { LoadingButton } from '../ui/loadingbtn'
+import { updateTask } from '@/actions/taskController'
+import { useToast } from '../ui/use-toast'
+import { useRouter } from 'next/navigation'
+import { TaskStatus } from '@/lib/tastLib'
 
 const AssignWriter = ({
     task,
@@ -36,10 +39,13 @@ const AssignWriter = ({
     const [open, setOpen] = useState(false)
     const [writer, setWriter] = useState('')
     const [searchWriters, setSearchWriters] = useState<WriterWithUser[]>([])
+    const { toast } = useToast()
+    const router = useRouter()
     const form = useForm<z.infer<typeof assignWriterFormSchema>>({
         resolver: zodResolver(assignWriterFormSchema),
         defaultValues: {
             taskId: task.id,
+            status: TaskStatus.PENDING_WRITER
         },
     })
 
@@ -71,16 +77,29 @@ const AssignWriter = ({
     const onFormSubmit = async (
         data: z.infer<typeof assignWriterFormSchema>
     ) => {
-        console.log(data)
+        setLoading(true)
+        const writer = writers.find((writer) => writer.id === data.writerId)
+
+        const assignWriter = await updateTask(data)
+        if (assignWriter) {
+            toast({
+                title: 'Writer Assigned',
+                description: 'Writer Assigned Successfully. Happy Writing!',
+                variant: 'success',
+            })
+            setOpen(false)
+            return router.refresh()
+        }
+        setLoading(false)
     }
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <Form {...form}>
-                <form className='w-full' onSubmit={form.handleSubmit(onFormSubmit)}>
+                <form className="w-full">
                     <DialogTrigger asChild>
                         <Button className="bg-teal-600 hover:bg-teal-500 w-full">
-                            <span className='text-nowrap'>Assign Writer</span>
+                            <span className="text-nowrap">Assign Writer</span>
                         </Button>
                     </DialogTrigger>
                     <DialogContent className="bg-neutral-800 border-gray-600">
@@ -138,6 +157,7 @@ const AssignWriter = ({
                                 className="bg-teal-600 hover:bg-teal-500"
                                 loading={loading}
                                 type="submit"
+                                onClick={form.handleSubmit(onFormSubmit)}
                             >
                                 Assign Task
                             </LoadingButton>
