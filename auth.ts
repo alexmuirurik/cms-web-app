@@ -19,13 +19,13 @@ export const config = {
 			authorize: (credentials) => {
 				const user = {
 					username: 'alexmuiruri',
-					email: 'alexmuiruri@gmail.com'
+					email: 'content@alexmuiruri.com'
 				}
 				return user 
 			}
 		})
 	],
-	debug: true,
+	debug: false,
 	secret: process.env.NEXTAUTH_SECRET, // To be added
 } satisfies NextAuthConfig
 

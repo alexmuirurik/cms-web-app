@@ -20,7 +20,7 @@ const SingleWriter = async ({ params }: { params: { id: string } }) => {
     return (
         <div className="page-wrapper">
             <PageHeader
-                title={writer.user.name as string}
+                title={writer?.user?.name as string}
                 description={`${tasks.length} tasks`}
             >
                 <div className="flex items-center gap-2">

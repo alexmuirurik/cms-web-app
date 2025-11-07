@@ -9,7 +9,7 @@ export const getWriterByID = async (writerId: string) => {
                 id: writerId,
             },
             include: {
-                user: true
+                user: true,
             },
         })
         return writer
@@ -29,6 +29,20 @@ export const getWriterByUserID = async (userId: string, companyId: string) => {
         return writer
     } catch (error) {
         console.log('Error Getting Writer By User Id: ' + error)
+    }
+}
+
+export const getWriterByEmail = async (email: string, companyId: string) => {
+    try {
+        const writer = await prisma.writer.findFirst({
+            where: {
+                email: email,
+                companyId: companyId,
+            },
+        })
+        return writer
+    } catch (error) {
+        console.log('Error Getting Writer By Email: ' + error)
     }
 }
 
@@ -69,7 +83,7 @@ export const createWriter = async (
     data: z.infer<typeof inviteWriterFormSchema>
 ) => {
     try {
-        const writer = await getWriterByUserID(data.userId, data.companyId)
+        const writer = await getWriterByEmail(data.email, data.companyId)
         if (writer) return await updateWriter(writer.id, data)
         const createdwriter = await prisma.writer.create({ data })
         return createdwriter

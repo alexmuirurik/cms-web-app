@@ -1,4 +1,3 @@
-import React from "react"
 import SignInForm from "@/components/auth/SignInForm"
 import { FcGoogle } from 'react-icons/fc'
 import { FaGithub } from 'react-icons/fa'
@@ -11,7 +10,7 @@ const LoginPage = () => {
 		<div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 border rounded-lg">
 
 			<div className="flex items-center justify-center sm:mx-auto sm:w-full sm:max-w-sm mb-6">
-				<Image src='/Ellipse.png' alt="" width={30} height={30} className="me-2" />
+				<Image src='/assets/img/Ellipse.png' alt="" width={30} height={30} className="me-2" />
 				<h2 className="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
 					Sign in to your account
 				</h2>

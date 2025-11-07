@@ -112,14 +112,24 @@ model Company {
     updatedAt DateTime @updatedAt
 }
 
+enum WriterStatus {
+	PENDING
+	TAKING_TEST
+    IN_REVIEW
+	APPROVED
+	REJECTED
+}
+
 model Writer {
 	id 					String @id @default(auto()) @map("_id") @db.ObjectId
 	email				String @unique
-	userId				String @db.ObjectId
+	userId				String? @db.ObjectId
 	companyId			String @db.ObjectId
-	user				User @relation(fields: [userId], references: [id])
+	user				User? @relation(fields: [userId], references: [id])
 	company				Company @relation(fields: [companyId], references: [id])
 	tasks				Task []
+	testWriter			Boolean @default(false)
+	status				WriterStatus @default(PENDING)
 	createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
