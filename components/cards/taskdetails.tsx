@@ -1,10 +1,9 @@
 'use client'
-
-import { ActionsThemselves } from '@/lib/tastLib'
 import { toTitleCase } from '@/lib/utils'
 import { WriterWithUser } from '@/prisma/types'
 import { Task } from '@prisma/client'
 import { taskActions } from '@/lib/tastLib'
+import { ActionsThemselves } from '@/lib/taskTypes'
 
 const TaskDetails = ({
     user,

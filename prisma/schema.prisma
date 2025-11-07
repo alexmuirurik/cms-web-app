@@ -191,7 +191,7 @@ model Task {
     wordcount    Int
     instructions String         @db.String
     content      String?        @db.String
-    status       CategoryStatus @default(PENDING_WRITER)
+    status       CategoryStatus @default(UNASSIGNED)
     deadline     Int
     categoryId   String?        @db.ObjectId
     companyId    String         @db.ObjectId

@@ -17,7 +17,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Task, WriterStatus } from '@prisma/client'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
-import { Form, } from '../ui/form'
+import { Form } from '../ui/form'
 import { WriterWithUser } from '@/prisma/types'
 import { useState } from 'react'
 import { Avatar } from '@radix-ui/react-avatar'
@@ -26,7 +26,7 @@ import { LoadingButton } from '../ui/loadingbtn'
 import { updateTask } from '@/actions/taskController'
 import { useToast } from '../ui/use-toast'
 import { useRouter } from 'next/navigation'
-import { TaskStatus } from '@/lib/tastLib'
+import { TaskStatus } from '@/lib/taskTypes'
 
 const AssignWriter = ({
     task,
@@ -45,7 +45,7 @@ const AssignWriter = ({
         resolver: zodResolver(assignWriterFormSchema),
         defaultValues: {
             taskId: task.id,
-            status: TaskStatus.PENDING_WRITER
+            status: TaskStatus.PENDING_WRITER,
         },
     })
 
@@ -99,7 +99,11 @@ const AssignWriter = ({
                 <form className="w-full">
                     <DialogTrigger asChild>
                         <Button className="bg-teal-600 hover:bg-teal-500 w-full">
-                            <span className="text-nowrap">Assign Writer</span>
+                            <span className="text-nowrap">
+                                {task.status === 'UNASSIGNED'
+                                    ? 'Assign Writer'
+                                    : 'Reassign Task'}
+                            </span>
                         </Button>
                     </DialogTrigger>
                     <DialogContent className="bg-neutral-800 border-gray-600">

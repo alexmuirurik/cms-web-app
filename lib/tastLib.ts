@@ -1,56 +1,12 @@
 import AssignWriter from '@/components/forms/assignWriter'
 import DeleteTask from '@/components/forms/deleteTask'
-import { WriterWithUser } from '@/prisma/types'
-import { Task, Writer } from '@prisma/client'
+import { TaskAction, TaskActions, TaskStatus, UserRole } from './taskTypes'
+import ViewButton from '@/components/forms/viewButton'
 
-export enum TaskActions {
-    ASSIGN_WRITER = 'ASSIGN_WRITER',
-    CLAIM_ARTICLE = 'CLAIM_ARTICLE',
-    SUBMIT_CONTENT = 'SUBMIT_CONTENT',
-    APPROVE_CONTENT = 'APPROVE_CONTENT',
-    DELETE_TASK = 'DELETE_TASK',
-}
-
-export enum TaskStatus {
-    UNASSIGNED = 'UNASSIGNED',
-    PENDING_WRITER = 'PENDING_WRITER',
-    IN_PROGRESS = 'IN_PROGRESS',
-    IN_REVIEW = 'IN_REVIEW',
-    APPROVED = 'APPROVED',
-    REJECTED = 'REJECTED',
-}
-
-export enum UserRole {
-    ADMIN = 'ADMIN',
-    WRITER = 'WRITER',
-    EDITOR = 'EDITOR',
-}
-
-export type ActionsThemselves = {
-        value: TaskActions
-        authorized: UserRole[]
-        component: ({
-            task,
-            writers,
-        }: {
-            task: Task
-            writers: WriterWithUser[]
-        }) => JSX.Element
-    }
-
-export type TaskAction = {
-    status: TaskStatus
-    actions: ActionsThemselves[]
-    messages: {
-        role: UserRole
-        message: string
-    }[]
-    color: string
-}
 
 export const taskActions: TaskAction[] = [
     {
-        status: TaskStatus.PENDING_WRITER,
+        status: TaskStatus.UNASSIGNED,
         actions: [
             {
                 value: TaskActions.ASSIGN_WRITER,
@@ -79,7 +35,39 @@ export const taskActions: TaskAction[] = [
             }
             
         ],
-        color: 'bg-blue-600',
+        color: 'text-blue-600',
+    },
+    {
+        status: TaskStatus.PENDING_WRITER,
+        actions: [
+            {
+                value: TaskActions.REASSIGN_TASK,
+                authorized: [UserRole.ADMIN],
+                component: AssignWriter,
+            },
+            {
+                value: TaskActions.VIEW_WRITER,
+                authorized: [UserRole.ADMIN],
+                component: ViewButton,
+            },
+            {
+                value: TaskActions.CLAIM_ARTICLE,
+                authorized: [UserRole.WRITER],
+                component: DeleteTask,
+            },
+        ],
+        messages: [
+            {
+                role: UserRole.WRITER,
+                message: 'You can claim this task and start writing',
+            },
+            {
+                role: UserRole.ADMIN,
+                message: 'Assign this task to a writer so they can start writing',
+            }
+            
+        ],
+        color: 'text-blue-600',
     },
     {
         status: TaskStatus.IN_PROGRESS,
@@ -100,7 +88,7 @@ export const taskActions: TaskAction[] = [
                 message: 'Wait for the writer to finish writing and review the task',
             }
         ],
-        color: 'bg-teal-600',
+        color: 'text-teal-600',
     },
     {
         status: TaskStatus.IN_REVIEW,
@@ -117,7 +105,7 @@ export const taskActions: TaskAction[] = [
                 message: 'I don\'t know who\'s reviewing this task between you and your editor' 
             }
         ],
-        color: 'bg-yellow-600',
+        color: 'text-yellow-600',
     },
     {
         status: TaskStatus.APPROVED,
@@ -138,7 +126,7 @@ export const taskActions: TaskAction[] = [
                 message: 'Congratulations! You\'ve completed this task',
             },
         ],
-        color: 'bg-green-600',
+        color: 'text-green-600',
     },
     {
         status: TaskStatus.REJECTED,
@@ -159,6 +147,6 @@ export const taskActions: TaskAction[] = [
                 message: 'Sorry, this task wasn\'t up to the standards',
             },
         ],
-        color: 'bg-red-600',
+        color: 'text-red-600',
     },
 ]
