@@ -4,7 +4,7 @@ import AddTask from '@/components/forms/addtask'
 import { auth } from '@/auth'
 import { getCompany } from '@/actions/companyController'
 import { notFound, redirect } from 'next/navigation'
-import { getWriterTasks } from '@/actions/taskController'
+import { getTasks } from '@/actions/taskController'
 import TaskCard from '@/components/cards/taskcard'
 import { getWriterByID } from '@/actions/userController'
 
@@ -16,7 +16,7 @@ const SingleWriter = async ({ params }: { params: { id: string } }) => {
     const writer = await getWriterByID(params.id)
     if (!writer) return notFound()
 
-    const tasks = (await getWriterTasks(writer.id)) ?? []
+    const tasks = (await getTasks(writer.id)) ?? []
     return (
         <div className="page-wrapper">
             <PageHeader

@@ -51,7 +51,7 @@ const CardTasks = ({ tasks }: { tasks: Task[] }) => {
                         </TableCell>
                         <TableCell>{trimWords(task.instructions, 10)}</TableCell>
                         <TableCell>{task.wordcount}</TableCell>
-                        <TableCell className="text-center">
+                        <TableCell className="text-end">
                             <span className="bg-teal-200 border border-neutral-400 text-neutral-500 text-sm rounded-md px-2 py-1">
                                 {task.status.replaceAll('-', ' ')}
                             </span>

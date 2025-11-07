@@ -19,7 +19,7 @@ const TasksPage = async () => {
                 <div className="flex items-center gap-2">
                     <Input placeholder='Search Tasks' />
                     <LoadingButton className="bg-teal-500 hover:bg-teal-700 py-4 px-8">
-                        <span className="text-white text-nowrap">Add Funds</span>
+                        <span className="text-white text-nowrap">Add a Task</span>
                     </LoadingButton>
                 </div>
             </PageHeader>

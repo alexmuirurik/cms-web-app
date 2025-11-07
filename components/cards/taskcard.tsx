@@ -6,7 +6,7 @@ import { Checkbox } from '../ui/checkbox'
 import Link from 'next/link'
 import { TaskWithFolder } from '@/prisma/types'
 
-const TaskCard = ({ tasks }: { tasks: TaskWithFolder[] }) => {
+const TaskCard = ({ tasks }: { tasks: Task[] }) => {
     const [checked, setChecked] = useState(new Map())
     return (
         <div className="space-y-2">
@@ -17,7 +17,7 @@ const TaskCard = ({ tasks }: { tasks: TaskWithFolder[] }) => {
                         <div className="flex items-center gap-2 border-e rounded-none p-2 w-4/12">
                             <Checkbox className="me-2 border-gray-400 data-[state=checked]:bg-teal-600 " />
                             <Link 
-                                href={`/projects/${task.folder.slug}/${task.slug}`}
+                                href={`/tasks/${task.slug}`}
                                 className="text-teal-800 hover:text-teal-500 text-sm font-bold"
                             >
                                 {task.title}
