@@ -161,27 +161,35 @@ model Category {
     updatedAt   DateTime @updatedAt
 }
 
+enum CategoryStatus {
+    PENDING_WRITER
+    IN_PROGRESS
+    IN_REVIEW
+    APPROVED
+    REJECTED
+}
+
 model Task {
-    id           String    @id @default(auto()) @map("_id") @db.ObjectId
-    slug         String    @unique
+    id           String         @id @default(auto()) @map("_id") @db.ObjectId
+    slug         String         @unique
     title        String
     wordcount    Int
-    instructions String    @db.String
-    content      String?   @db.String
-    status       String
+    instructions String         @db.String
+    content      String?        @db.String
+    status       CategoryStatus @default(PENDING_WRITER)
     deadline     Int
-    categoryId   String?   @db.ObjectId
-    companyId    String    @db.ObjectId
-    editorId     String?   @db.ObjectId
-    writerId     String?   @db.ObjectId
-    invoiceId    String?   @db.ObjectId
-    writer       Writer?   @relation(fields: [writerId], references: [id])
-    editor       Editor?   @relation(fields: [editorId], references: [id])
-    invoice      Invoice?  @relation(fields: [invoiceId], references: [id])
-    category     Category? @relation(fields: [categoryId], references: [id])
-    company      Company   @relation(fields: [companyId], references: [id])
-    createdAt    DateTime  @default(now())
-    updatedAt    DateTime  @updatedAt
+    categoryId   String?        @db.ObjectId
+    companyId    String         @db.ObjectId
+    editorId     String?        @db.ObjectId
+    writerId     String?        @db.ObjectId
+    invoiceId    String?        @db.ObjectId
+    writer       Writer?        @relation(fields: [writerId], references: [id])
+    editor       Editor?        @relation(fields: [editorId], references: [id])
+    invoice      Invoice?       @relation(fields: [invoiceId], references: [id])
+    category     Category?      @relation(fields: [categoryId], references: [id])
+    company      Company        @relation(fields: [companyId], references: [id])
+    createdAt    DateTime       @default(now())
+    updatedAt    DateTime       @updatedAt
 }
 
 model Message {

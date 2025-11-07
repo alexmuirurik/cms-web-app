@@ -1,9 +1,9 @@
-import { z } from "zod";
+import { z } from 'zod'
 
-export const inviteWriterFormSchema = z.object({ 
+export const inviteWriterFormSchema = z.object({
     email: z.string().email(),
     companyId: z.string(),
-    testWriter: z.boolean().default(false)
+    testWriter: z.boolean().default(false),
 })
 
 export const companyFormSchema = z.object({
@@ -15,20 +15,20 @@ export const companyFormSchema = z.object({
     payperword: z.string(),
 })
 
-export const folderFormSchema = z.object({
+export const categoryFormSchema = z.object({
     title: z.string(),
     description: z.string(),
-    companyId: z.string()
+    companyId: z.string(),
 })
 
 export const taskFormSchema = z.object({
     title: z.string(),
     instructions: z.string(),
     wordcount: z.string(),
-    status: z.string().default('pending-writer'),
+    status: z.string().default('PENDING_WRITER'),
     deadline: z.string(),
     companyId: z.string(),
-    folderId: z.string()
+    categoryId: z.string().optional(),
 })
 
 export const writeTaskFormSchema = z.object({

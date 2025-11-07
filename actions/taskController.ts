@@ -51,9 +51,9 @@ export const createTask = async (data: z.infer<typeof taskFormSchema>) => {
                 wordcount: Number(data.wordcount),
                 deadline: Number(data.deadline),
                 status: data.status,
-                folder: {
+                category: {
                     connect: {
-                        id: data.folderId,
+                        id: data.categoryId,
                     },
                 },
                 company: {

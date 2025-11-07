@@ -1,11 +1,11 @@
 import PageHeader from '@/components/layouts/PageHeader'
 import { Input } from '@/components/ui/input'
-import { LoadingButton } from '@/components/ui/loadingbtn'
 import CardTasks from '@/components/cards/cardTasks'
 import { auth } from '@/auth'
 import { getCompany } from '@/actions/companyController'
 import { redirect } from 'next/navigation'
 import { getTasks } from '@/actions/taskController'
+import AddTask from '@/components/forms/addtask'
 
 const TasksPage = async () => {
     const session = await auth()
@@ -18,9 +18,7 @@ const TasksPage = async () => {
             <PageHeader title="Invoices" description={`${tasks.length}`}>
                 <div className="flex items-center gap-2">
                     <Input placeholder='Search Tasks' />
-                    <LoadingButton className="bg-teal-500 hover:bg-teal-700 py-4 px-8">
-                        <span className="text-white text-nowrap">Add a Task</span>
-                    </LoadingButton>
+                    <AddTask company={company} />
                 </div>
             </PageHeader>
             <div className="page-body">
