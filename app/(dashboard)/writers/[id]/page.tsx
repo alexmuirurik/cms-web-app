@@ -5,8 +5,8 @@ import { auth } from '@/auth'
 import { getCompany } from '@/actions/companyController'
 import { notFound, redirect } from 'next/navigation'
 import { getTasks } from '@/actions/taskController'
-import TaskCard from '@/components/cards/taskcard'
 import { getWriterByID } from '@/actions/userController'
+import CardTasks from '@/components/cards/cardTasks'
 
 const SingleWriter = async ({
     params,
@@ -33,11 +33,11 @@ const SingleWriter = async ({
                         className="bg-transparent focus-within:!ring-0 border text-sm ps-5 py-2"
                         placeholder="Search"
                     />
-                    <AddTask company={company} />
+                    <AddTask company={company} writer={writer} />
                 </div>
             </PageHeader>
             <div className="page-body">
-                <TaskCard tasks={tasks} />
+                <CardTasks tasks={tasks} />
             </div>
         </div>
     )

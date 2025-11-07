@@ -9,6 +9,7 @@ import { getTask } from '@/actions/taskController'
 import { LoadingButton } from '@/components/ui/loadingbtn'
 import { taskActions, UserRole } from '@/lib/tastLib'
 import { toTitleCase } from '@/lib/utils'
+import { getWriters } from '@/actions/userController'
 
 const SingleTaskPage = async ({
     params,
@@ -23,11 +24,14 @@ const SingleTaskPage = async ({
     const task = await getTask((await params).task)
     if (!task) return notFound()
 
-    const possibleActions = taskActions
-        .find((action) => action.status === task.status)
-        ?.actions.filter((action) =>
-            action.authorized.includes(session?.user?.role as UserRole)
-        ) ?? []
+    const writers = (await getWriters(company.id)) ?? []
+
+    const possibleActions =
+        taskActions
+            .find((action) => action.status === task.status)
+            ?.actions.filter((action) =>
+                action.authorized.includes(session?.user?.role as UserRole)
+            ) ?? []
 
     return (
         <div className="page-wrapper">
@@ -37,16 +41,11 @@ const SingleTaskPage = async ({
             >
                 <div className="flex items-center gap-2">
                     {possibleActions.map((action) => (
-                        <LoadingButton
-                            className="bg-teal-500 hover:bg-teal-400 border border-neutral-400 text-sm rounded-md w-full px-2 py-1"
-                            variant="default"
-                        >
-                            {toTitleCase(
-                                action.value
-                                    .replaceAll('_', ' ')
-                                    .toLocaleLowerCase()
-                            )}
-                        </LoadingButton>
+                        <action.component
+                            key={action.value}
+                            task={task}
+                            writers={writers}
+                        />
                     ))}
                 </div>
             </PageHeader>

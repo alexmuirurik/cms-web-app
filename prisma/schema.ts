@@ -29,6 +29,13 @@ export const taskFormSchema = z.object({
     deadline: z.string(),
     companyId: z.string(),
     categoryId: z.string().optional(),
+    writerId: z.string().optional(),
+})
+
+export const assignWriterFormSchema = z.object({
+    writerId: z.string(),
+    taskId: z.string(),
+    
 })
 
 export const writeTaskFormSchema = z.object({

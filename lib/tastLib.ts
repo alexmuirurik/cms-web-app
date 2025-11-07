@@ -1,3 +1,5 @@
+import AssignWriter from "@/components/forms/assignWriter";
+
 export enum TaskActions {
     ASSIGN_WRITER = 'ASSIGN_WRITER',
     CLAIM_ARTICLE = 'CLAIM_ARTICLE',
@@ -27,14 +29,17 @@ export const taskActions = [
             {
                 value: TaskActions.ASSIGN_WRITER,
                 authorized: [UserRole.ADMIN],
+                component: AssignWriter,
             },
             {
                 value: TaskActions.DELETE_TASK,
                 authorized: [UserRole.ADMIN],
+                component: 'DeleteTask',
             },
             {
                 value: TaskActions.CLAIM_ARTICLE,
                 authorized: [UserRole.WRITER],
+                component: 'ClaimArticle',
             }
         ],
     },
@@ -44,6 +49,7 @@ export const taskActions = [
             {
                 value: TaskActions.APPROVE_CONTENT,
                 authorized: [UserRole.EDITOR, UserRole.ADMIN],
+                component: 'ApproveContent',
             },
         ],
     },
@@ -53,6 +59,7 @@ export const taskActions = [
             {
                 value: TaskActions.DELETE_TASK,
                 authorized: [UserRole.EDITOR, UserRole.ADMIN],
+                component: 'DeleteTask',
             },
         ],
     },
@@ -62,6 +69,7 @@ export const taskActions = [
             {
                 value: TaskActions.DELETE_TASK,
                 authorized: [UserRole.WRITER, UserRole.ADMIN],
+                component: 'DeleteTask',
             },
         ],
     },
@@ -71,6 +79,7 @@ export const taskActions = [
             {
                 value: TaskActions.DELETE_TASK,
                 authorized: [UserRole.WRITER, UserRole.ADMIN],
+                component: 'DeleteTask',
             },
         ],
     },

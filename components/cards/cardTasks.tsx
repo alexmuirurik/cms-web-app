@@ -9,15 +9,16 @@ import { FaBuffer } from 'react-icons/fa'
 import { Checkbox } from '../ui/checkbox'
 import Link from 'next/link'
 import { Task } from '@prisma/client'
-import { trimWords } from '@/lib/utils'
+import { toTitleCase, trimWords } from '@/lib/utils'
 import { LoadingButton } from '../ui/loadingbtn'
+import { Badge } from '../ui/badge'
 
 const CardTasks = ({ tasks }: { tasks: Task[] }) => {
     return (
         <Table>
             <TableHeader>
                 <TableRow>
-                    <TableCell className="border-e border-gray-200 w-px px-5 rounded-none">
+                    <TableCell className="border-e border-gray-200 w-px px-5 pe-2 rounded-none">
                         <Checkbox className="me-2 border-gray-400 data-[state=checked]:bg-teal-600 " />
                     </TableCell>
                     <TableCell className="flex items-center gap-2 font-bold rounded-none capitalize">
@@ -55,14 +56,16 @@ const CardTasks = ({ tasks }: { tasks: Task[] }) => {
                         </TableCell>
                         <TableCell>{task.wordcount}</TableCell>
                         <TableCell className="text-end">
-                            <LoadingButton
-                                className="bg-teal-500 hover:bg-teal-400 border border-neutral-400 text-sm rounded-md px-2 py-1"
-                                variant="default"
+                            <Badge
+                                className="border border-neutral-300 text-sm text-green-600 rounded-md px-2 py-1"
+                                variant="outline"
                             >
-                                {task.status
-                                    .replaceAll('_', ' ')
-                                    .toLocaleLowerCase()}
-                            </LoadingButton>
+                                {toTitleCase(
+                                    task.status
+                                        .replaceAll('_', ' ')
+                                        .toLocaleLowerCase()
+                                )}
+                            </Badge>
                         </TableCell>
                     </TableRow>
                 ))}

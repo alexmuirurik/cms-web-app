@@ -24,12 +24,12 @@ import { useState } from 'react'
 import { Input } from '../ui/input'
 import { taskFormSchema } from '@/prisma/schema'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Company } from '@prisma/client'
+import { Company, Writer, WriterStatus } from '@prisma/client'
 import { LoadingButton } from '../ui/loadingbtn'
 import { createTask } from '@/actions/taskController'
 import { useRouter } from 'next/navigation'
 
-const AddTask = ({ company }: { company: Company }) => {
+const AddTask = ({ company, writer }: { company: Company, writer?: Writer }) => {
     const [loading, setLoading] = useState(false)
     const [open, setOpen] = useState(false)
     const router = useRouter()
@@ -38,10 +38,21 @@ const AddTask = ({ company }: { company: Company }) => {
         resolver: zodResolver(taskFormSchema),
         defaultValues: {
             companyId: company.id,
+            writerId: writer?.id,
         },
     })
     const onFormSubmit = async (data: z.infer<typeof taskFormSchema>) => {
         setLoading(true)
+        if(writer && writer.status !== WriterStatus.APPROVED) {
+            toast({
+                title: 'Unauthorized Writer',
+                description: 'The writer is not approved to write tasks',
+                variant: 'destructive',
+            })
+            setLoading(false)
+            return setOpen(false)
+        }
+
         const createtask = await createTask(data)
         if (createtask) {
             toast({
@@ -59,7 +70,7 @@ const AddTask = ({ company }: { company: Company }) => {
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <Button className="w-full bg-teal-500 hover:bg-teal-700">
-                    Add a Task
+                    {writer ? 'Assign a Task' : 'Add a Task'}
                 </Button>
             </DialogTrigger>
             <DialogContent className="bg-neutral-800 border-gray-600">
