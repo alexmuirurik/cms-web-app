@@ -45,7 +45,7 @@ const CreateCompany = ({ user, company}: { user: User | undefined, company?: Com
                         <FormItem className="w-full">
                             <FormLabel className="" >Company Name</FormLabel>
                             <FormControl >
-                                <Input className=" border-teal-600 w-full" {...field} defaultValue={company?.title} />
+                                <Input className="border-teal-600 w-full" {...field} defaultValue={company?.title} />
                             </FormControl>
                         </FormItem>
                     )} />
@@ -54,18 +54,18 @@ const CreateCompany = ({ user, company}: { user: User | undefined, company?: Com
                         <FormItem className="w-full">
                             <FormLabel className="" >Company Location</FormLabel>
                             <FormControl >
-                                <Input className=" border-teal-600 w-full" {...field} defaultValue={company?.location} />
+                                <Input className="border-teal-600 w-full" {...field} defaultValue={company?.location} />
                             </FormControl>
                         </FormItem>
                     )} />
                 </div>
 
                 <div className="flex gap-4">
-                    <FormField control={form.control} name='location' render={({field}) => (
+                    <FormField control={form.control} name='website' render={({field}) => (
                         <FormItem className="w-full">
                             <FormLabel className="" >Website</FormLabel>
                             <FormControl >
-                                <Input className=" border-teal-600 w-full" {...field} defaultValue={company?.location} />
+                                <Input className="border-teal-600 w-full" {...field} defaultValue={company?.location} />
                             </FormControl>
                         </FormItem>
                     )} />

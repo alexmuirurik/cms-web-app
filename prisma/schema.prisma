@@ -14,46 +14,46 @@ enum UserRole {
 }
 
 enum TaskStatus {
-	PENDING_WRITER
+    PENDING_WRITER
     IN_PROGRESS
     COMPLETED
 }
 
 model User {
-    id            			String          @id @default(auto()) @map("_id") @db.ObjectId
-    name          			String?
-    email         			String?         @unique
-    emailVerified 			DateTime?
-    image         			String?
-	role          			UserRole?		@default(ADMIN)
-    accounts      			Account[]
-    sessions      			Session[]
-	companies	  			Company []
-	sentmessages  			SentMessage []
-	receivedmessages		ReceivedMessage[]
-	writingjobs	  			Writer []	
-	editingjobs	  			Editor []	  
-    Authenticator 			Authenticator[]
-    createdAt 				DateTime @default(now())
-    updatedAt 				DateTime @updatedAt
+    id               String          @id @default(auto()) @map("_id") @db.ObjectId
+    name             String?
+    email            String?         @unique
+    emailVerified    DateTime?
+    image            String?
+    role             UserRole?       @default(ADMIN)
+    accounts         Account[]
+    sessions         Session[]
+    companies        Company[]
+    writingjobs      Writer[]
+    editingjobs      Editor[]
+    Authenticator    Authenticator[]
+    sentMessages     Message[]       @relation("sentMessages")
+    receivedMessages Message[]       @relation("receivedMessages")
+    createdAt        DateTime        @default(now())
+    updatedAt        DateTime        @updatedAt
 }
 
 model Account {
-    id                String  @id @default(auto()) @map("_id") @db.ObjectId
-    userId            String  @db.ObjectId
+    id                String   @id @default(auto()) @map("_id") @db.ObjectId
+    userId            String   @db.ObjectId
     type              String
     provider          String
     providerAccountId String
-    refresh_token     String? @db.String
-    access_token      String? @db.String
+    refresh_token     String?  @db.String
+    access_token      String?  @db.String
     expires_at        Int?
     token_type        String?
     scope             String?
-    id_token          String? @db.String
+    id_token          String?  @db.String
     session_state     String?
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    createdAt         DateTime @default(now())
+    updatedAt         DateTime @updatedAt
+    user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@unique([provider, providerAccountId])
 }
@@ -64,8 +64,8 @@ model Session {
     userId       String   @db.ObjectId
     expires      DateTime
     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
 }
 
 model VerificationToken {
@@ -94,136 +94,129 @@ model Authenticator {
 }
 
 model Company {
-	id 					String @id @default(auto()) @map("_id") @db.ObjectId
-	slug				String @unique
-	title				String
-	description			String @db.String
-	userId				String @db.ObjectId
-	location			String
-	payperword			Float
-	owner				User @relation(fields: [userId], references: [id])
-	categories			Category []
-	tasks				Task  []
-	writers				Writer[]
-	editors				Editor []
-	invoices			Invoice []
-	billings			Billing []
-	createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    id          String     @id @default(auto()) @map("_id") @db.ObjectId
+    slug        String     @unique
+    title       String
+    description String     @db.String
+    userId      String     @db.ObjectId
+    location    String
+    payperword  Float
+    owner       User       @relation(fields: [userId], references: [id])
+    categories  Category[]
+    tasks       Task[]
+    writers     Writer[]
+    editors     Editor[]
+    invoices    Invoice[]
+    billings    Billing[]
+    createdAt   DateTime   @default(now())
+    updatedAt   DateTime   @updatedAt
 }
 
 enum WriterStatus {
-	PENDING
-	TAKING_TEST
+    PENDING
+    TAKING_TEST
     IN_REVIEW
-	APPROVED
-	REJECTED
+    APPROVED
+    REJECTED
 }
 
 model Writer {
-	id 					String @id @default(auto()) @map("_id") @db.ObjectId
-	email				String @unique
-	userId				String? @db.ObjectId 
-	companyId			String @db.ObjectId
-	user				User? @relation(fields: [userId], references: [id])
-	company				Company @relation(fields: [companyId], references: [id])
-	tasks				Task []
-	testWriter			Boolean @default(false)
-	status				WriterStatus @default(PENDING)
-	createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    id         String       @id @default(auto()) @map("_id") @db.ObjectId
+    email      String       @unique
+    userId     String?      @db.ObjectId
+    companyId  String       @db.ObjectId
+    user       User?        @relation(fields: [userId], references: [id])
+    company    Company      @relation(fields: [companyId], references: [id])
+    tasks      Task[]
+    testWriter Boolean      @default(false)
+    status     WriterStatus @default(PENDING)
+    createdAt  DateTime     @default(now())
+    updatedAt  DateTime     @updatedAt
 }
 
 model Editor {
-	id 					String @id @default(auto()) @map("_id") @db.ObjectId
-	email				String @unique
-	userId				String? @db.ObjectId
-	companyId			String @db.ObjectId
-	user				User? @relation(fields: [userId], references: [id])
-	company				Company @relation(fields: [companyId], references: [id])
-	tasks				Task []
-	createdAt DateTime @default(now())
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    email     String   @unique
+    userId    String?  @db.ObjectId
+    companyId String   @db.ObjectId
+    user      User?    @relation(fields: [userId], references: [id])
+    company   Company  @relation(fields: [companyId], references: [id])
+    tasks     Task[]
+    createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
 
 model Category {
-	id 					String @id @default(auto()) @map("_id") @db.ObjectId
-	slug				String @unique
-	title 				String 
-	description 		String 
-	companyId			String @db.ObjectId
-	taskcount			Int?
-	progress			Int?
-	tasks				Task []
-	company				Company @relation(fields: [companyId], references: [id])
-	createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    id          String   @id @default(auto()) @map("_id") @db.ObjectId
+    slug        String   @unique
+    title       String
+    description String
+    companyId   String   @db.ObjectId
+    taskcount   Int?
+    progress    Int?
+    tasks       Task[]
+    company     Company  @relation(fields: [companyId], references: [id])
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
 }
 
 model Task {
-	id 					String @id @default(auto()) @map("_id") @db.ObjectId
-	slug				String @unique
-	title				String
-	wordcount			Int
-	instructions		String @db.String
-	content				String? @db.String
-	status				String
-	deadline			Int
-	categoryId			String? @db.ObjectId
-	companyId			String @db.ObjectId
-	editorId			String? @db.ObjectId
-	writerId			String? @db.ObjectId
-	invoiceId			String? @db.ObjectId
-	writer				Writer? @relation(fields: [writerId], references: [id])
-	editor				Editor? @relation(fields: [editorId], references: [id])
-	invoice				Invoice? @relation(fields: [invoiceId], references: [id])
-	category			Category? @relation(fields: [categoryId], references: [id])
-	company				Company @relation(fields: [companyId], references: [id])
-	createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    id           String    @id @default(auto()) @map("_id") @db.ObjectId
+    slug         String    @unique
+    title        String
+    wordcount    Int
+    instructions String    @db.String
+    content      String?   @db.String
+    status       String
+    deadline     Int
+    categoryId   String?   @db.ObjectId
+    companyId    String    @db.ObjectId
+    editorId     String?   @db.ObjectId
+    writerId     String?   @db.ObjectId
+    invoiceId    String?   @db.ObjectId
+    writer       Writer?   @relation(fields: [writerId], references: [id])
+    editor       Editor?   @relation(fields: [editorId], references: [id])
+    invoice      Invoice?  @relation(fields: [invoiceId], references: [id])
+    category     Category? @relation(fields: [categoryId], references: [id])
+    company      Company   @relation(fields: [companyId], references: [id])
+    createdAt    DateTime  @default(now())
+    updatedAt    DateTime  @updatedAt
 }
 
-model SentMessage {
-	id					String @id @default(auto()) @map("_id") @db.ObjectId
-	description			String @db.String
-	receiverId			String @db.ObjectId
-	receiver			User @relation(fields: [receiverId], references: [id])
-	createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-}
-
-model ReceivedMessage {
-	id					String @id @default(auto()) @map("_id") @db.ObjectId
-	description			String @db.String
-	senderId			String @db.ObjectId
-	sender				User @relation(fields: [senderId], references: [id])
-	createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+model Message {
+    id         String   @id @default(auto()) @map("_id") @db.ObjectId
+    message    String   @db.String
+    receiverId String   @db.ObjectId
+    senderId   String   @db.ObjectId
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+    sender     User?    @relation("sentMessages", fields: [senderId], references: [id])
+    receiver   User?    @relation("receivedMessages", fields: [receiverId], references: [id])
 }
 
 model Invoice {
-	id					String @id @default(auto()) @map("_id") @db.ObjectId
-	title				String
-	description			String @db.String
-	amount				Float
-	paymentmethod		String?
-	status				String
-	companyId			String @db.ObjectId
-	company				Company @relation(fields: [companyId], references: [id])
-	tasks				Task []
-	createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    id            String   @id @default(auto()) @map("_id") @db.ObjectId
+    title         String
+    description   String   @db.String
+    amount        Float
+    paymentmethod String?
+    status        String
+    companyId     String   @db.ObjectId
+    company       Company  @relation(fields: [companyId], references: [id])
+    tasks         Task[]
+    createdAt     DateTime @default(now())
+    updatedAt     DateTime @updatedAt
 }
 
 model Billing {
-	id					String @id @default(auto()) @map("_id") @db.ObjectId
-	title				String
-	description			String @db.String
-	companyId			String @db.ObjectId
-	amount				Float
-	paymentmethod		String
-	status				String
-	company				Company @relation(fields: [companyId], references: [id])
-	createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    id            String   @id @default(auto()) @map("_id") @db.ObjectId
+    title         String
+    description   String   @db.String
+    companyId     String   @db.ObjectId
+    amount        Float
+    paymentmethod String
+    status        String
+    company       Company  @relation(fields: [companyId], references: [id])
+    createdAt     DateTime @default(now())
+    updatedAt     DateTime @updatedAt
 }

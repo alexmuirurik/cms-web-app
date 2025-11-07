@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import { Folder, Task } from '@prisma/client'
+import { Task } from '@prisma/client'
 
 const TaskDetails = ({ task }: { task: Task }) => {
     return (

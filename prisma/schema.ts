@@ -11,6 +11,7 @@ export const companyFormSchema = z.object({
     description: z.string(),
     userId: z.string(),
     location: z.string(),
+    website: z.string(),
     payperword: z.string(),
 })
 

@@ -1,7 +1,5 @@
-import React from 'react'
 import { getCompany } from '@/actions/companyController'
 import { auth } from '@/auth'
-import DashChart from '@/components/dash/dashchart'
 import FolderDetails from '@/components/dash/folderdetails'
 import TitleCards from '@/components/dash/titlecards'
 import { redirect } from 'next/navigation'
@@ -16,7 +14,6 @@ const Dashboard = async () => {
         <div className="content">
             <TitleCards />
             <FolderDetails />
-            <DashChart />
         </div>
     )
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import CardInvoices from '@/components/tables/CardInvoices'
+import CardInvoices from '@/components/cards/cardInvoices'
 import PageHeader from '@/components/layouts/PageHeader'
 import { Button } from '@/components/ui/button'
 import { auth } from '@/auth'

@@ -1,5 +1,5 @@
 import React from 'react'
-import CardBillings from '@/components/tables/CardBillings'
+import CardBillings from '@/components/cards/cardBillings'
 import PageHeader from '@/components/layouts/PageHeader'
 import PaymentsCard from '@/components/cards/paymentscard'
 import { Button } from '@/components/ui/button'
