@@ -15,8 +15,8 @@ const CardTasks = ({ tasks }: { tasks: Task[] }) => {
     return (
         <Table>
             <TableHeader>
-                <TableRow className="">
-                    <TableCell className="border-e border-gray-200 w-px p-1 pe-2 rounded-none">
+                <TableRow>
+                    <TableCell className="border-e border-gray-200 w-px p-5 rounded-none">
                         <FaChartBar className="me-2 border-gray-400 data-[state=checked]:bg-teal-600 " />
                     </TableCell>
                     <TableCell className="flex items-center gap-2 font-bold rounded-none capitalize">

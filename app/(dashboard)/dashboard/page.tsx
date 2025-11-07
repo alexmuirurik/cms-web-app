@@ -1,4 +1,5 @@
 import { getCompany } from '@/actions/companyController'
+import { getTasks } from '@/actions/taskController'
 import { auth } from '@/auth'
 import FolderDetails from '@/components/dash/folderdetails'
 import TitleCards from '@/components/dash/titlecards'
@@ -10,10 +11,12 @@ const Dashboard = async () => {
     const company = await getCompany(session?.user?.id as string)
     if(!company) return redirect('/settings')
 
+    const tasks = await getTasks(company.id) ?? []
+
     return (
         <div className="content">
             <TitleCards />
-            <FolderDetails />
+            <FolderDetails tasks={tasks} />
         </div>
     )
 }
