@@ -8,6 +8,7 @@ import { redirect } from 'next/navigation'
 import UserCard from '@/components/cards/userCard'
 import { getWriters } from '@/actions/userController'
 import MessageCard from '@/components/cards/messageCard'
+import { getMessages } from '@/actions/emailController'
 
 const Messages = async () => {
     const session = await auth()
@@ -15,6 +16,7 @@ const Messages = async () => {
     if (!company) return redirect('/settings')
 
     const writers = (await getWriters(company.id)) ?? []
+    const messages = (await getMessages(company.id, session?.user?.id as string)) ?? []
     return (
         <div className="page-wrapper">
             <PageHeader title="Messages" description="540+">

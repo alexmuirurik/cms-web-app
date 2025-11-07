@@ -15,7 +15,7 @@ const TasksPage = async () => {
     const tasks = await getTasks(company.id as string) ?? []
     return (
         <div className="page-wrapper">
-            <PageHeader title="Invoices" description="540+">
+            <PageHeader title="Invoices" description={`${tasks.length}`}>
                 <div className="flex items-center gap-2">
                     <Input placeholder='Search Tasks' />
                     <LoadingButton className="bg-teal-500 hover:bg-teal-700 py-4 px-8">

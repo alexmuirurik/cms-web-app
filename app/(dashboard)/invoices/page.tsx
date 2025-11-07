@@ -16,7 +16,7 @@ const Invoices = async () => {
     
     return (
         <div className="page-wrapper">
-            <PageHeader title="Invoices" description="540+">
+            <PageHeader title="Invoices" description={`${invoices.length}`}>
                 <div className="flex items-center gap-2">
                     <input
                         type="text"
