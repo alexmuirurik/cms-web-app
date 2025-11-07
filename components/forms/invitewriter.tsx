@@ -20,11 +20,13 @@ import { LoadingButton } from '../ui/loadingbtn'
 import { Checkbox } from '../ui/checkbox'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Company } from '@prisma/client'
+import { useRouter } from 'next/navigation'
 
 const InviteWriter = ({ company }: { company: Company }) => {
     const [loading, setLoading] = useState(false)
     const [open, setOpen] = useState(false)
     const { toast } = useToast()
+    const router = useRouter()
     const form = useForm<z.infer<typeof inviteWriterFormSchema>>({
         resolver: zodResolver(inviteWriterFormSchema),
         defaultValues: {
@@ -44,6 +46,7 @@ const InviteWriter = ({ company }: { company: Company }) => {
                     variant: 'success',
                 })
                 setOpen(false)
+                return router.refresh()
             }
         } catch (error) {
             console.log('Error sending invite ' + error)

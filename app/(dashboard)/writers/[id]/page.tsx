@@ -8,12 +8,16 @@ import { getTasks } from '@/actions/taskController'
 import TaskCard from '@/components/cards/taskcard'
 import { getWriterByID } from '@/actions/userController'
 
-const SingleWriter = async ({ params }: { params: { id: string } }) => {
+const SingleWriter = async ({
+    params,
+}: {
+    params: Promise<{ id: string }>
+}) => {
     const session = await auth()
     const company = await getCompany(session?.user?.id as string)
     if (!company) return redirect('/settings')
 
-    const writer = await getWriterByID(params.id)
+    const writer = await getWriterByID((await params).id)
     if (!writer) return notFound()
 
     const tasks = (await getTasks(writer.id)) ?? []
@@ -29,7 +33,7 @@ const SingleWriter = async ({ params }: { params: { id: string } }) => {
                         className="bg-transparent focus-within:!ring-0 border text-sm ps-5 py-2"
                         placeholder="Search"
                     />
-                    <AddTask company={company} /> 
+                    <AddTask company={company} />
                 </div>
             </PageHeader>
             <div className="page-body">

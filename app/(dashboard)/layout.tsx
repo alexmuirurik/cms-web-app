@@ -3,7 +3,6 @@ import { auth } from '@/auth'
 import { redirect } from 'next/navigation'
 import Sidebar from '@/components/layouts/Sidebar'
 import Navbar from '@/components/layouts/Navbar'
-import Footer from '@/components/layouts/Footer'
 
 
 const DashboardLayout = async ({children}: React.PropsWithChildren) => {

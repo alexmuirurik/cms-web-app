@@ -12,6 +12,7 @@ import { LoadingButton } from "../ui/loadingbtn"
 import { createCompany } from "@/actions/companyController"
 import { User } from "next-auth"
 import { Company } from "@prisma/client"
+import { redirect } from "next/navigation"
 
 const CreateCompany = ({ user, company}: { user: User | undefined, company?: Company | null}) => {
     const [loading, setLoading] = useState(false)
@@ -31,6 +32,7 @@ const CreateCompany = ({ user, company}: { user: User | undefined, company?: Com
                 description: 'We\'ve successfully updated your company details',
                 variant: 'success'
             })
+            return redirect('/dashboard')
         }
         setLoading(false)
     }

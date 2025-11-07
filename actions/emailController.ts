@@ -12,7 +12,7 @@ export const inviteWriter = async (Invitedata: z.infer<typeof inviteWriterFormSc
     try {
         const company = await getCompanyById(Invitedata.companyId)
         const { error } = await resend.emails.send({
-            from: `${company?.title} <${company?.owner?.email}>`,
+            from: `${company?.title} <${process.env.ADMIN_EMAIL}>`,
             to: [Invitedata.email],
             subject: 'Welcome to SlackApp',
             react: GreetingsEmail({ firstName: Invitedata.email }),
