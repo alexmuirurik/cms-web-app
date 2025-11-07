@@ -6,8 +6,15 @@ export type WriterWithUser = Prisma.WriterGetPayload<{
     }
 }>
 
-export type TaskWithFolder = Prisma.TaskGetPayload<{
+export type InvoiceWithCompany = Prisma.InvoiceGetPayload<{
     include: {
-        folder: true
+        company: true,
+        tasks: true
+    }
+}>
+
+export type BillingWithCompany = Prisma.BillingGetPayload<{
+    include: {
+        company: true
     }
 }>

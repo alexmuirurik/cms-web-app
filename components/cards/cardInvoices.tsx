@@ -1,90 +1,63 @@
-import React from 'react'
 import {
     Table,
     TableBody,
-    TableCaption,
     TableCell,
-    TableFooter,
-    TableHead,
     TableHeader,
     TableRow,
 } from '@/components/ui/table'
-import { FaFileInvoice } from 'react-icons/fa'
+import { FaBuffer, FaChartBar } from 'react-icons/fa'
 import { Checkbox } from '../ui/checkbox'
+import Link from 'next/link'
+import { InvoiceWithCompany } from '@/prisma/types'
 
-const invoices = [
-    {
-        invoice: 'Invoice 001',
-        paymentStatus: 'Paid',
-        totalAmount: '$250.00',
-        paymentMethod: 'Credit Card',
-    },
-    {
-        invoice: 'Invoice 002',
-        paymentStatus: 'Pending',
-        totalAmount: '$150.00',
-        paymentMethod: 'PayPal',
-    },
-    {
-        invoice: 'Invoice 003',
-        paymentStatus: 'Unpaid',
-        totalAmount: '$350.00',
-        paymentMethod: 'Bank Transfer',
-    },
-    {
-        invoice: 'Invoice 004',
-        paymentStatus: 'Paid',
-        totalAmount: '$450.00',
-        paymentMethod: 'Credit Card',
-    },
-    {
-        invoice: 'Invoice 005',
-        paymentStatus: 'Paid',
-        totalAmount: '$550.00',
-        paymentMethod: 'PayPal',
-    },
-    {
-        invoice: 'Invoice 006',
-        paymentStatus: 'Pending',
-        totalAmount: '$200.00',
-        paymentMethod: 'Bank Transfer',
-    },
-    {
-        invoice: 'Invoice 007',
-        paymentStatus: 'Unpaid',
-        totalAmount: '$300.00',
-        paymentMethod: 'Credit Card',
-    },
-]
-
-const CardInvoices = () => {
+const CardInvoices = ({ invoices }: { invoices: InvoiceWithCompany[] }) => {
     return (
         <Table>
-            <TableCaption>A list of your recent invoices.</TableCaption>
+            <TableHeader>
+                <TableRow>
+                    <TableCell className="border-e border-gray-200 w-px p-5 rounded-none">
+                        <FaChartBar className="me-2 border-gray-400 data-[state=checked]:bg-teal-600 " />
+                    </TableCell>
+                    <TableCell className="flex items-center gap-2 font-bold rounded-none capitalize">
+                        <FaBuffer className="text-base" />
+                        Invoices
+                    </TableCell>
+                    <TableCell className="font-bold rounded-none">
+                        Description
+                    </TableCell>
+                    <TableCell className="font-bold rounded-none">
+                        Amount
+                    </TableCell>
+                    <TableCell className="font-bold text-center rounded-none">
+                        Status
+                    </TableCell>
+                </TableRow>
+            </TableHeader>
             <TableBody className="border-t border-gray-200 rounded-md">
-                {invoices.map((invoice, index) => (
-                    <TableRow key={invoice.invoice} className="items-center">
+                {invoices.map((invoice) => (
+                    <TableRow key={invoice.id} className="items-center">
                         <TableCell className="border-e border-gray-200 w-px p-1 pe-2">
                             <Checkbox className="me-2 border-gray-400 data-[state=checked]:bg-teal-600 " />
                         </TableCell>
                         <TableCell className="flex items-center gap-2 font-medium capitalize">
-                            <FaFileInvoice className="text-base text-orange-600" />
-                            {invoice.invoice}
+                            <Link
+                                className="flex items-center gap-2 text-neutral-500 hover:text-blue-950 font-bold"
+                                href={`/invoices/${invoice.id}`}
+                            >
+                                <FaBuffer className="text-base text-blue-600" />
+                                {invoice.title}
+                            </Link>
                         </TableCell>
-                        <TableCell>{invoice.paymentStatus}</TableCell>
-                        <TableCell>{invoice.paymentMethod}</TableCell>
-                        <TableCell className="text-right">
-                            {invoice.totalAmount}
+                        <TableCell>{invoice.description}</TableCell>
+                        <TableCell>{invoice.amount}</TableCell>
+                        <TableCell className="text-end">
+                            <span className="bg-teal-200 border border-neutral-400 text-neutral-500 text-sm rounded-md px-2 py-1">
+                                {invoice.status.replaceAll('-', ' ')}
+                            </span>
                         </TableCell>
                     </TableRow>
                 ))}
             </TableBody>
-            <TableFooter>
-                <TableRow>
-                    <TableCell colSpan={3}>Total</TableCell>
-                    <TableCell className="text-right">$2,500.00</TableCell>
-                </TableRow>
-            </TableFooter>
         </Table>
     )
 }
