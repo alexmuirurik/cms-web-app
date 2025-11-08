@@ -3,10 +3,11 @@ import { slugify } from '@/lib/utils'
 import prisma from '@/prisma/prisma'
 import { companyFormSchema } from '@/prisma/schema'
 import { z } from 'zod'
-import { createWriter } from './userController'
+import { createWriter, getUserById } from './userController'
 
 export const getCompany = async (userId: string) => {
     try {
+        const user = await getUserById(userId)
         const company = await prisma.company.findFirst({
             where: {
                 owner: {

@@ -20,23 +20,72 @@ export const config = {
     callbacks: {
         async signIn({ user }) {
             const writer = await prisma.writer.findUnique({
-                where: { email: user.email as string },
-                include: { user: true },
+                where: {
+                    email: user.email as string,
+                },
+                include: {
+                    user: true,
+                },
             })
 
             user.role = writer ? UserRole.WRITER : UserRole.ADMIN
-
+            user.companyId = writer?.companyId ?? undefined
             return true
         },
+
         async jwt({ token, user }) {
             if (user) {
                 token.role = user.role
             }
+
+            if (user.role === UserRole.ADMIN) {
+                const company = await prisma.company.findFirst({
+                    where: {
+                        owner: {
+                            id: user.id,
+                        },
+                    },
+                    include: {
+                        owner: true,
+                    },
+                })
+
+                token.companyId = company?.id ?? undefined
+            }
+
+            if (user.role === UserRole.WRITER) {
+                const writer = await prisma.writer.findFirst({
+                    where: {
+                        id: user.id,
+                    },
+                    include: {
+                        user: true,
+                    },
+                })
+
+                token.companyId = writer?.companyId ?? undefined
+            }
+
+            if (user.role === UserRole.EDITOR) {
+                const editor = await prisma.editor.findFirst({
+                    where: {
+                        id: user.id,
+                    },
+                    include: {
+                        user: true,
+                    },
+                })
+
+                token.companyId = editor?.companyId ?? undefined
+            }
+
             return token
         },
+
         async session({ session, token }) {
             if (token && session.user) {
                 session.user.role = token.role
+                session.user.companyId = token.companyId as string
             }
             return session
         },

@@ -7,8 +7,8 @@ import NextTopLoader from "nextjs-toploader"
 const nunito = Nunito({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-	title: "NextAuth.js Example",
-	description: "This is an example site to demonstrate how to use NextAuth.js for authentication",
+	title: "SlackApp",
+	description: "This is a slackapp to manage your writers",
 }
 
 export default function RootLayout({ children }: React.PropsWithChildren) {

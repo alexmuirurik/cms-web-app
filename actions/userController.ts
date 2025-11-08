@@ -2,6 +2,19 @@ import { z } from 'zod'
 import prisma from '@/prisma/prisma'
 import { inviteWriterFormSchema } from '@/prisma/schema'
 
+export const getUserById = async (userId: string) => {
+    try {
+        const user = await prisma.user.findUnique({
+            where: {
+                id: userId,
+            },
+        })
+        return user
+    } catch (err) {
+        console.log('We faced an error getting a user ' + err)
+    }
+}
+
 export const getWriterByID = async (writerId: string) => {
     try {
         const writer = await prisma.writer.findUnique({
@@ -15,6 +28,22 @@ export const getWriterByID = async (writerId: string) => {
         return writer
     } catch (error) {
         console.log('Error getting writer by ID: ' + error)
+    }
+}
+
+export const getWriterAccountsByUserID = async (userId: string) => {
+    try {
+        const accounts = await prisma.account.findMany({
+            where: {
+                userId: userId,
+            },
+            include: {
+                user: true,
+            },
+        })
+        return accounts
+    } catch (error) {
+        console.log('Error getting writer accounts by ID: ' + error)
     }
 }
 
