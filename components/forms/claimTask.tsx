@@ -1,7 +1,7 @@
 'use client'
 
-import { deleteTask } from '@/actions/taskController'
-import { Button } from '@/components/ui/button'
+import { Task, Writer } from '@prisma/client'
+import { LoadingButton } from '../ui/loadingbtn'
 import {
     Dialog,
     DialogClose,
@@ -12,54 +12,50 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog'
-import { WriterWithUser } from '@/prisma/types'
-import { Task } from '@prisma/client'
-import { redirect, useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { useToast } from '../ui/use-toast'
-import { LoadingButton } from '../ui/loadingbtn'
+import { Button } from '../ui/button'
+import { claimTask } from '@/actions/taskController'
+import { TaskStatus } from '@/lib/taskTypes'
+import { WriterWithUser } from '@/prisma/types'
 
-const DeleteTask = ({
+const ClaimTask = ({
     task,
     writers,
+    writer,
 }: {
     task: Task
     writers: WriterWithUser[]
+    writer: Writer
 }) => {
-    const [loading, setLoading] = useState(false)
     const [open, setOpen] = useState(false)
-    const { toast } = useToast()
-    const deleteTaskAsync = async () => {
+    const [loading, setLoading] = useState(false)
+    const claimTaskAsync = async () => {
         setLoading(true)
-        const deletetask = await deleteTask(task.id)
-        if (deletetask) {
+        const claim = await claimTask({
+            taskId: task.id,
+            writerId: writer.id,
+            status: TaskStatus.IN_PROGRESS,
+        })
+        if (claim) {
             setLoading(false)
-            toast({
-                title: 'Task Deleted',
-                description: 'Task Deleted Successfully. Happy Writing!',
-                variant: 'success',
-            })
-            setOpen(false)
-            return redirect('/tasks')
+            return setOpen(false)
         }
         setLoading(false)
     }
-
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <Button className="w-full" variant="destructive">
-                    <span className="text-nowrap">Delete Task</span>
+                    <span className="text-nowrap">Claim Task</span>
                 </Button>
             </DialogTrigger>
             <DialogContent className="bg-neutral-800 border-gray-600">
                 <DialogHeader className="flex flex-col !justify-center !text-center space-y-4">
                     <DialogTitle className="text-gray-300">
-                        Delete Task
+                        Claim Task
                     </DialogTitle>
                     <DialogDescription className="text-neutral-500 ">
-                        Are you sure you want to delete this task? This action
-                        is irreversible.
+                        Make sure you read the instructions before claiming it.
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter className="!justify-between mt-6">
@@ -74,9 +70,9 @@ const DeleteTask = ({
                     <LoadingButton
                         loading={loading}
                         variant="destructive"
-                        onClick={() => deleteTaskAsync()}
+                        onClick={() => claimTaskAsync()}
                     >
-                        Delete Task
+                        Claim Task
                     </LoadingButton>
                 </DialogFooter>
             </DialogContent>
@@ -84,4 +80,4 @@ const DeleteTask = ({
     )
 }
 
-export default DeleteTask
+export default ClaimTask

@@ -1,7 +1,8 @@
 'use server'
+import { TaskStatus } from '@/lib/taskTypes'
 import { slugify } from '@/lib/utils'
 import prisma from '@/prisma/prisma'
-import { taskFormSchema, writeTaskFormSchema } from '@/prisma/schema'
+import { assignWriterFormSchema, taskFormSchema, writeTaskFormSchema } from '@/prisma/schema'
 import { z } from 'zod'
 
 export const getTaskById = async (taskId: string) => {
@@ -52,6 +53,24 @@ export const getTasks = async (companyId: string) => {
     }
 }
 
+export const claimTask = async (data: z.infer<typeof assignWriterFormSchema>) => {
+    try {
+        const claimTask = await prisma.task.update({
+            where: {
+                id: data.taskId,
+                writerId: data.writerId,
+            },
+            data: {
+                status: TaskStatus.IN_PROGRESS,
+            },
+        })
+
+        return claimTask
+    } catch (err) {
+        console.log('We faced an error claiming a task ' + err)
+    }
+}
+
 export const createTask = async (data: z.infer<typeof taskFormSchema>) => {
     try {
         const createtask = await prisma.task.create({
@@ -61,7 +80,7 @@ export const createTask = async (data: z.infer<typeof taskFormSchema>) => {
                 instructions: data.instructions,
                 wordcount: Number(data.wordcount),
                 deadline: Number(data.deadline),
-                status: data.status,
+                status: data.status as TaskStatus,
                 company: {
                     connect: {
                         id: data.companyId,
@@ -88,7 +107,7 @@ export const updateTask = async (data: z.infer<typeof writeTaskFormSchema>) => {
                 writerId: data.writerId,
                 editorId: data.editorId,
                 invoiceId: data.invoiceId,
-                status: data.status,
+                status: data.status as TaskStatus,
             },
         })
 

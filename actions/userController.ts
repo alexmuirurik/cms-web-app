@@ -31,6 +31,22 @@ export const getWritersByCompany = async (companyId: string) => {
     }
 }
 
+export const getEditorById = async (editorId: string) => {
+    try {
+        const editor = await prisma.editor.findUnique({
+            where: {
+                id: editorId,
+            },
+            include: {
+                user: true,
+            },
+        })
+        return editor
+    } catch (err) {
+        console.log('We faced an error getting a single editor ' + err)
+    }
+}
+
 export const getEditorsByCompany = async (companyId: string) => {
     try {
         const editors = await prisma.editor.findMany({
@@ -93,12 +109,11 @@ export const getWriterByUserID = async (userId: string, companyId: string) => {
     }
 }
 
-export const getWriterByEmail = async (email: string, companyId: string) => {
+export const getWriterByEmail = async (email: string) => {
     try {
         const writer = await prisma.writer.findFirst({
             where: {
                 email: email,
-                companyId: companyId,
             },
         })
         return writer
@@ -144,7 +159,7 @@ export const createWriter = async (
     data: z.infer<typeof inviteWriterFormSchema>
 ) => {
     try {
-        const writer = await getWriterByEmail(data.email, data.companyId)
+        const writer = await getWriterByEmail(data.email)
         if (writer) return await updateWriter(writer.id, data)
         const createdwriter = await prisma.writer.create({ data })
         return createdwriter

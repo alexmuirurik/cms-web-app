@@ -1,5 +1,5 @@
 import { WriterWithUser } from "@/prisma/types"
-import { Task } from "@prisma/client"
+import { Task, Writer } from "@prisma/client"
 
 export enum TaskActions {
     ACCEPT_TASK = 'ACCEPT_TASK',
@@ -36,6 +36,7 @@ export type ActionsThemselves = {
         }: {
             task: Task
             writers: WriterWithUser[]
+            writer: Writer
         }) => JSX.Element
     }
 

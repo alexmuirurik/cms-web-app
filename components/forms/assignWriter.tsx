@@ -14,7 +14,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { assignWriterFormSchema } from '@/prisma/schema'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Task, WriterStatus } from '@prisma/client'
+import { Task, Writer, WriterStatus } from '@prisma/client'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
 import { Form } from '../ui/form'
@@ -31,13 +31,15 @@ import { TaskStatus } from '@/lib/taskTypes'
 const AssignWriter = ({
     task,
     writers,
+    writer
 }: {
     task: Task
     writers: WriterWithUser[]
+    writer: Writer 
 }) => {
     const [loading, setLoading] = useState(false)
     const [open, setOpen] = useState(false)
-    const [writer, setWriter] = useState('')
+    const [activeWriter, setActiveWriter] = useState('')
     const [searchWriters, setSearchWriters] = useState<WriterWithUser[]>([])
     const { toast } = useToast()
     const router = useRouter()
@@ -50,7 +52,7 @@ const AssignWriter = ({
     })
 
     const filterWriters = (e: string) => {
-        setWriter(e)
+        setActiveWriter(e)
         setSearchWriters(() =>
             writers.filter((writer) => {
                 if (e === '') return false
@@ -69,7 +71,7 @@ const AssignWriter = ({
     }
 
     const setWriterId = (writer: WriterWithUser) => {
-        setWriter(writer.user?.name ?? writer.email)
+        setActiveWriter(writer.user?.name ?? writer.email)
         form.setValue('writerId', writer.id)
         setSearchWriters([])
     }
@@ -119,7 +121,7 @@ const AssignWriter = ({
                             className="border-neutral-600 text-neutral-200"
                             placeholder="Search Writers"
                             onChange={(e) => filterWriters(e.target.value)}
-                            value={writer}
+                            value={activeWriter}
                         />
                         <div className="space-y-2">
                             {searchWriters.map((writer) => (

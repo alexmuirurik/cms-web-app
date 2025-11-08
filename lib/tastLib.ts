@@ -4,6 +4,7 @@ import { TaskAction, TaskActions, TaskStatus, UserRole } from './taskTypes'
 import ViewButton from '@/components/forms/viewButton'
 import { SessionUser } from '@/prisma/types'
 import { Company, Editor, Task, User, Writer, WriterStatus } from '@prisma/client'
+import ClaimTask from '@/components/forms/claimTask'
 
 export const taskActions: TaskAction[] = [
     {
@@ -22,7 +23,7 @@ export const taskActions: TaskAction[] = [
             {
                 value: TaskActions.CLAIM_ARTICLE,
                 authorized: [UserRole.WRITER],
-                component: DeleteTask,
+                component: ClaimTask,
             },
         ],
         messages: [

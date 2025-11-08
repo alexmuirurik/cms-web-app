@@ -6,6 +6,12 @@ import Google from 'next-auth/providers/google'
 import { PrismaAdapter } from '@auth/prisma-adapter'
 import prisma from './prisma/prisma'
 import { UserRole } from '@prisma/client'
+import { getCompany } from './actions/companyController'
+import {
+    getEditorById,
+    getWriterByEmail,
+    getWriterByID,
+} from './actions/userController'
 
 export const config = {
     adapter: PrismaAdapter(prisma),
@@ -19,17 +25,19 @@ export const config = {
     ],
     callbacks: {
         async signIn({ user }) {
-            const writer = await prisma.writer.findUnique({
-                where: {
-                    email: user.email as string,
-                },
-                include: {
-                    user: true,
-                },
-            })
+            const writer = await getWriterByEmail(user.email as string)
+            const editor = await getEditorById(user.id as string)
+            
+            if (writer) {
+                user.role = UserRole.WRITER
+                user.companyId = writer.companyId
+            }
 
-            user.role = writer ? UserRole.WRITER : UserRole.ADMIN
-            user.companyId = writer?.companyId ?? undefined
+            if (editor) {
+                user.role = UserRole.EDITOR
+                user.companyId = editor.companyId
+            }
+
             return true
         },
 
@@ -37,56 +45,31 @@ export const config = {
             if (user) {
                 token.role = user.role
             }
-
-            if (user.role === UserRole.ADMIN) {
-                const company = await prisma.company.findFirst({
-                    where: {
-                        owner: {
-                            id: user.id,
-                        },
-                    },
-                    include: {
-                        owner: true,
-                    },
-                })
-
-                token.companyId = company?.id ?? undefined
-            }
-
-            if (user.role === UserRole.WRITER) {
-                const writer = await prisma.writer.findFirst({
-                    where: {
-                        id: user.id,
-                    },
-                    include: {
-                        user: true,
-                    },
-                })
-
-                token.companyId = writer?.companyId ?? undefined
-            }
-
-            if (user.role === UserRole.EDITOR) {
-                const editor = await prisma.editor.findFirst({
-                    where: {
-                        id: user.id,
-                    },
-                    include: {
-                        user: true,
-                    },
-                })
-
-                token.companyId = editor?.companyId ?? undefined
-            }
-
             return token
         },
 
         async session({ session, token }) {
             if (token && session.user) {
                 session.user.role = token.role
-                session.user.companyId = token.companyId as string
             }
+
+            if (!session.user.companyId && session.user.role) {
+                if (session.user.role === UserRole.ADMIN) {
+                    const company = await getCompany(session.user.id)
+                    session.user.companyId = company?.id
+                }
+
+                if (session.user.role === UserRole.WRITER) {
+                    const writer = await getWriterByID(session.user.id)
+                    session.user.companyId = writer?.companyId
+                }
+
+                if (session.user.role === UserRole.EDITOR) {
+                    const editor = await getEditorById(session.user.id)
+                    session.user.companyId = editor?.companyId
+                }
+            }
+
             return session
         },
     },
