@@ -9,13 +9,15 @@ import UserCard from '@/components/cards/userCard'
 import { getWriters } from '@/actions/userController'
 import MessageCard from '@/components/cards/messageCard'
 import { getMessages } from '@/actions/emailController'
+import { getChatUsers } from '@/actions/messageController'
+import { SessionUser } from '@/prisma/types'
 
 const Messages = async () => {
     const session = await auth()
     const company = await getCompanyById(session?.user?.companyId as string)
     if (!company) return redirect('/settings')
 
-    const writers = (await getWriters(company.id)) ?? []
+    const chatUsers = (await getChatUsers(session?.user as SessionUser, company.id)) ?? []
     const messages = (await getMessages(company.id, session?.user?.id as string)) ?? []
 
     return (
@@ -40,10 +42,10 @@ const Messages = async () => {
                         <Input placeholder="Search" />
                     </CardHeader>
                     <CardContent className="p-0">
-                        <UserCard user={writers} />
+                        <UserCard user={chatUsers} />
                     </CardContent>
                 </Card>
-				<MessageCard messages={messages} />
+				<MessageCard messages={messages} users={chatUsers} />
             </div>
         </div>
     )

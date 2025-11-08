@@ -6,22 +6,26 @@ import { getCompanyById } from '@/actions/companyController'
 import { redirect } from 'next/navigation'
 import { getTasks } from '@/actions/taskController'
 import AddTask from '@/components/forms/addtask'
+import { userCanCreate } from '@/lib/tastLib'
+import { SessionUser } from '@/prisma/types'
 
 const TasksPage = async () => {
     const session = await auth()
     const company = await getCompanyById(session?.user?.companyId as string)
     if (!company) return redirect('/settings')
 
-    const tasks = await getTasks(company.id as string) ?? []
+    const tasks = (await getTasks(company.id as string)) ?? []
     return (
         <div className="page-wrapper">
-            <PageHeader title="Invoices" description={`${tasks.length}`}>
+            <PageHeader title="Tasks" description={`${tasks.length}`}>
                 <div className="flex items-center gap-2">
-                    <Input placeholder='Search Tasks' />
-                    <AddTask company={company} />
+                    <Input placeholder="Search Tasks" />
+                    {userCanCreate(session?.user as SessionUser) && (
+                        <AddTask company={company} />
+                    )}
                 </div>
             </PageHeader>
-            <div className="page-body">
+            <div className="page-body border w-full">
                 <CardTasks tasks={tasks} />
             </div>
         </div>

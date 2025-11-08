@@ -9,12 +9,15 @@ import {
     FaUsers,
 } from 'react-icons/fa'
 import { usePathname } from 'next/navigation'
+import { UserRole } from '@prisma/client'
+import { SessionUser } from '@/prisma/types'
 
 export type Route = {
     icon: any
     name: string
     title: string
     link: string
+    auth: UserRole[]
 }
 
 export const routes: Route[] = [
@@ -25,6 +28,7 @@ export const routes: Route[] = [
         name: 'Dashboard',
         title: 'Dashboard',
         link: '/dashboard',
+        auth: [UserRole.ADMIN, UserRole.WRITER, UserRole.EDITOR],
     },
     {
         icon: (
@@ -33,6 +37,7 @@ export const routes: Route[] = [
         name: 'Tasks',
         title: 'Tasks',
         link: '/tasks',
+        auth: [UserRole.ADMIN, UserRole.WRITER, UserRole.EDITOR],
     },
     {
         icon: (
@@ -41,6 +46,7 @@ export const routes: Route[] = [
         name: 'Writers',
         title: 'Writers',
         link: '/writers',
+        auth: [UserRole.ADMIN, UserRole.EDITOR],
     },
     {
         icon: (
@@ -49,6 +55,7 @@ export const routes: Route[] = [
         name: 'Messages',
         title: 'Messages',
         link: '/messages',
+        auth: [UserRole.ADMIN, UserRole.WRITER, UserRole.EDITOR],
     },
     {
         icon: (
@@ -57,6 +64,7 @@ export const routes: Route[] = [
         name: 'Invoices',
         title: 'Invoices',
         link: '/invoices',
+        auth: [UserRole.ADMIN, UserRole.WRITER, UserRole.EDITOR],
     },
     {
         icon: (
@@ -65,31 +73,35 @@ export const routes: Route[] = [
         name: 'Billings',
         title: 'Billings',
         link: '/billings',
+        auth: [UserRole.ADMIN],
     },
 ]
 
-const SideList = () => {
+const SideList = ({ user }: { user: SessionUser }) => {
     const pathname = usePathname()
     const newpath = pathname.split('/')
     return routes.map((route) => {
         const newroute = route.link.split('/')
         const isActive = newpath.at(1) === newroute.at(1) ? 'active' : ''
+        const isAuth = route.auth.includes(user.role)
         return (
-            <li
-                key={route.link}
-                className={
-                    isActive +
-                    ' flex [&.active]:sidebar-active hover:sidebar-active mt-1'
-                }
-            >
-                <Link
-                    className="bg-transparent relative flex items-center w-full text-sm font-mono font-semibold mx-4 px-2 py-4"
-                    href={route.link}
+            isAuth && (
+                <li
+                    key={route.link}
+                    className={
+                        isActive +
+                        ' flex [&.active]:sidebar-active hover:sidebar-active mt-1'
+                    }
                 >
-                    {route.icon}
-                    {route.name}
-                </Link>
-            </li>
+                    <Link
+                        className="bg-transparent relative flex items-center w-full text-sm font-mono font-semibold mx-4 px-2 py-4"
+                        href={route.link}
+                    >
+                        {route.icon}
+                        {route.name}
+                    </Link>
+                </li>
+            )
         )
     })
 }

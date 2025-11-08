@@ -37,6 +37,14 @@ const CardTasks = ({ tasks }: { tasks: Task[] }) => {
                 </TableRow>
             </TableHeader>
             <TableBody className="border-t border-gray-200 rounded-md">
+                {tasks.length === 0 && (
+                    <TableRow>
+                        <TableCell colSpan={4} className="text-start">
+                            No tasks found
+                        </TableCell>
+                    </TableRow>
+                )}
+
                 {tasks.map((task) => (
                     <TableRow key={task.id} className="items-center">
                         <TableCell className="border-e border-gray-200 w-px ps-5 pe-2">

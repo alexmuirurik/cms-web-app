@@ -15,6 +15,38 @@ export const getUserById = async (userId: string) => {
     }
 }
 
+export const getWritersByCompany = async (companyId: string) => {
+    try {
+        const writers = await prisma.writer.findMany({
+            where: {
+                companyId: companyId,
+            },
+            include: {
+                user: true,
+            },
+        })
+        return writers
+    } catch (err) {
+        console.log('We faced an error getting folder writers ' + err)
+    }
+}
+
+export const getEditorsByCompany = async (companyId: string) => {
+    try {
+        const editors = await prisma.editor.findMany({
+            where: {
+                companyId: companyId,
+            },
+            include: {
+                user: true,
+            },
+        })
+        return editors
+    } catch (err) {
+        console.log('We faced an error getting folder editors ' + err)
+    }
+}
+
 export const getWriterByID = async (writerId: string) => {
     try {
         const writer = await prisma.writer.findUnique({

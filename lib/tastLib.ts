@@ -2,7 +2,8 @@ import AssignWriter from '@/components/forms/assignWriter'
 import DeleteTask from '@/components/forms/deleteTask'
 import { TaskAction, TaskActions, TaskStatus, UserRole } from './taskTypes'
 import ViewButton from '@/components/forms/viewButton'
-
+import { SessionUser } from '@/prisma/types'
+import { Company, Editor, Task, User, Writer, WriterStatus } from '@prisma/client'
 
 export const taskActions: TaskAction[] = [
     {
@@ -31,9 +32,9 @@ export const taskActions: TaskAction[] = [
             },
             {
                 role: UserRole.ADMIN,
-                message: 'Assign this task to a writer so they can start writing',
-            }
-            
+                message:
+                    'Assign this task to a writer so they can start writing',
+            },
         ],
         color: 'text-blue-600',
     },
@@ -63,9 +64,9 @@ export const taskActions: TaskAction[] = [
             },
             {
                 role: UserRole.ADMIN,
-                message: 'Assign this task to a writer so they can start writing',
-            }
-            
+                message:
+                    'Assign this task to a writer so they can start writing',
+            },
         ],
         color: 'text-blue-600',
     },
@@ -85,8 +86,9 @@ export const taskActions: TaskAction[] = [
             },
             {
                 role: UserRole.ADMIN,
-                message: 'Wait for the writer to finish writing and review the task',
-            }
+                message:
+                    'Wait for the writer to finish writing and review the task',
+            },
         ],
         color: 'text-teal-600',
     },
@@ -102,8 +104,9 @@ export const taskActions: TaskAction[] = [
         messages: [
             {
                 role: UserRole.ADMIN,
-                message: 'I don\'t know who\'s reviewing this task between you and your editor' 
-            }
+                message:
+                    "I don't know who's reviewing this task between you and your editor",
+            },
         ],
         color: 'text-yellow-600',
     },
@@ -119,11 +122,11 @@ export const taskActions: TaskAction[] = [
         messages: [
             {
                 role: UserRole.WRITER,
-                message: 'Congratulations! You\'ve completed this task',
+                message: "Congratulations! You've completed this task",
             },
             {
                 role: UserRole.ADMIN,
-                message: 'Congratulations! You\'ve completed this task',
+                message: "Congratulations! You've completed this task",
             },
         ],
         color: 'text-green-600',
@@ -144,9 +147,45 @@ export const taskActions: TaskAction[] = [
             },
             {
                 role: UserRole.ADMIN,
-                message: 'Sorry, this task wasn\'t up to the standards',
+                message: "Sorry, this task wasn't up to the standards",
             },
         ],
         color: 'text-red-600',
     },
 ]
+
+export const userCanEdit = (user: SessionUser, task: Task) => {
+    if (user.role === UserRole.ADMIN) return true
+    if (user.role === UserRole.WRITER && task.writerId === user.id) return true
+    if (user.role === UserRole.EDITOR && task.editorId === user.id) return true
+    return false
+}
+
+export const userCanCreate = (user: SessionUser) => {
+    if (user.role === UserRole.ADMIN) return true
+    return false
+}
+
+export const userCanDelete = (user: SessionUser, task: Task) => {
+    if (user.role === UserRole.ADMIN) return true
+    return false
+}
+
+export const userCanView = (user: SessionUser, task: Task) => {
+    if (user.role === UserRole.ADMIN) return true
+    if (user.role === UserRole.WRITER && task.writerId === user.id) return true
+    if (user.role === UserRole.EDITOR && task.editorId === user.id) return true
+    return false
+}
+
+export const userCanChat = (user: User, writer?: Writer, editor?: Editor) => {
+    if (user.role === UserRole.ADMIN) return true
+    if (user.role === UserRole.WRITER && writer?.status === WriterStatus.APPROVED) return true
+    if (user.role === UserRole.EDITOR && editor?.companyId === WriterStatus.APPROVED) return true
+    return false
+}
+
+export const userCanAddFunds = (user: SessionUser, company?: Company) => {
+    if (user.role === UserRole.ADMIN) return true
+    return false
+}

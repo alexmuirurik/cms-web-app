@@ -1,4 +1,3 @@
-import React from 'react'
 import { FaBuildingCircleCheck } from 'react-icons/fa6'
 import { FaFileCircleQuestion } from 'react-icons/fa6'
 import { FaRoadCircleExclamation } from 'react-icons/fa6'
@@ -13,7 +12,7 @@ const TitleCards = () => {
                 </div>
                 <div className="pt-2">
                     <h4 className="font-bold text-sm leading-3 mb-0">
-                        45 Completed
+                        0 Completed
                     </h4>
                     <small className="text-xs">in the last 7 days</small>
                 </div>
@@ -24,7 +23,7 @@ const TitleCards = () => {
                 </div>
                 <div className="pt-2">
                     <h4 className="font-bold text-sm leading-3 mb-0">
-                        56 Edited
+                        0 In Progress
                     </h4>
                     <small className="text-xs">in the last 7 days</small>
                 </div>
@@ -35,7 +34,7 @@ const TitleCards = () => {
                 </div>
                 <div className="pt-2">
                     <h4 className="font-bold text-sm leading-3 mb-0">
-                        6 Due Soon
+                        0 Pending Payment
                     </h4>
                     <small className="text-xs">in the last 7 days</small>
                 </div>

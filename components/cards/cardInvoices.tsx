@@ -34,6 +34,14 @@ const CardInvoices = ({ invoices }: { invoices: InvoiceWithCompany[] }) => {
                 </TableRow>
             </TableHeader>
             <TableBody className="border-t border-gray-200 rounded-md">
+                {invoices.length === 0 && (
+                    <TableRow>
+                        <TableCell colSpan={4} className="text-start">
+                            No invoices to show
+                        </TableCell>
+                    </TableRow>
+                )}
+
                 {invoices.map((invoice) => (
                     <TableRow key={invoice.id} className="items-center">
                         <TableCell className="border-e border-gray-200 w-px p-1 pe-2">

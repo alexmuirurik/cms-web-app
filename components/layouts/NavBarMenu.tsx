@@ -12,6 +12,7 @@ import { Avatar, AvatarImage } from '../ui/avatar'
 import Link from 'next/link'
 import { SignOut } from '../auth/SignOut'
 import { auth } from '@/auth'
+import { UserRole } from '@prisma/client'
 
 const NavBarMenu = async () => {
     const session = await auth()
@@ -35,11 +36,7 @@ const NavBarMenu = async () => {
             <MenubarMenu>
                 <MenubarTrigger className="cursor-pointer">
                     <Avatar className="w-6 h-6">
-                        <AvatarImage
-                            src={image}
-                            width={25}
-                            height={25}
-                        />
+                        <AvatarImage src={image} width={25} height={25} />
                     </Avatar>
                 </MenubarTrigger>
                 <MenubarContent className="bg-zinc-100" align="end">
@@ -49,11 +46,13 @@ const NavBarMenu = async () => {
                         </Link>
                     </MenubarItem>
                     <MenubarSeparator />
-                    <MenubarItem inset className="p-0">
-                        <Link href="/settings" className="w-full ps-7 py-2">
-                            Settings
-                        </Link>
-                    </MenubarItem>
+                    {session?.user?.role === UserRole.ADMIN && (
+                        <MenubarItem inset className="p-0">
+                            <Link href="/settings" className="w-full ps-7 py-2">
+                                Settings
+                            </Link>
+                        </MenubarItem>
+                    )}
                     <MenubarSeparator />
                     <MenubarItem inset className="p-0">
                         <SignOut />
