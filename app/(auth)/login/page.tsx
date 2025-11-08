@@ -1,85 +1,20 @@
-import SignInForm from "@/components/auth/SignInForm"
-import { FcGoogle } from 'react-icons/fc'
-import { FaGithub } from 'react-icons/fa'
-import Image from "next/image"
-import Link from "next/link"
-import { LoadingButton } from "@/components/ui/loadingbtn"
+import Navbar from "@/components/auth/home/navbar"
+import LoginCard from "@/components/auth/loginCard"
+import LoginCopy from "@/components/auth/loginCopy"
 
-const LoginPage = () => {
-	return (
-		<div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 border rounded-lg">
-
-			<div className="flex items-center justify-center sm:mx-auto sm:w-full sm:max-w-sm mb-6">
-				<Image src='/assets/img/Ellipse.png' alt="" width={30} height={30} className="me-2" />
-				<h2 className="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-					Sign in to your account
-				</h2>
-			</div>
-
-			<div className="sm:mx-auto sm:w-full sm:max-w-sm">
-				<div className="flex items-center justify-between gap-4 w-full mb-6">
-					<SignInForm provider="google" className="flex border w-full">
-						<button type="submit" className="flex items-center px-8 py-2">
-							<FcGoogle className="me-1 text-lg" />
-							Google
-						</button>
-					</SignInForm>
-					<SignInForm provider="github" className="flex justify-end border w-full">
-						<button type="submit" className="flex items-center px-8 py-2">
-							<FaGithub className="me-1 text-lg" />
-							Github
-						</button>
-					</SignInForm>
-				</div>
-
-				<div className="flex items-center justify-between w-full font-semibold text-sm inset-1 mb-4">
-					<span className="border w-3/12"></span>
-					<span className="text-sm px-2">Or continue with Email</span>
-					<span className="border w-3/12"></span>
-				</div>
-
-				<form className="space-y-6"  >
-					<div className="form-group mb-4">
-						<label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900 mb-2">
-							Email address
-						</label>
-						<input className="bg-transparent focus-within:!ring-0 border text-sm w-full ps-5 py-2" id="email" name="email" type="email" autoComplete="email" required />
-					</div>
-
-					<div className="form-group mb-4">
-						<label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900 mb-2">
-							Password
-						</label>
-						<input className="bg-transparent focus-within:!ring-0 border text-sm w-full ps-5 py-2" id="password" name="password" type="password" autoComplete="current-password" required />
-					</div>
-
-					<div className="form-group flex content-between mb-4">
-						<div className="flex w-1/2">
-							<input id="remember-me" name="remember-me" type="checkbox" className="border rounded-sm bg-slate-200 me-4" />
-							<label htmlFor="remember-me" className="text-sm">Remember me</label>
-						</div>
-						<div className="flex w-1/2 content-end">
-							<Link href="/forgot-password" className="text-sm font-bold text-blue-800">Forgot password?</Link>
-						</div>
-					</div>
-
-					<div className="form-group">
-						<LoadingButton className="w-full hover:bg-gray-950" type='submit' >
-							Sign in
-						</LoadingButton>
-					</div>
-				</form>
-
-				<p className="mt-10 text-center text-sm text-gray-500">
-					Not a member?{' '}
-					<Link href="/register" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-						Register For Free
-					</Link>
-				</p>
-			</div>
-		</div>
-	)
+const LoginPage = async () => {
+    return (<div className="relative">
+            <Navbar />
+            <div className="max-w-[85rem] px-4 pt-24 sm:px-6 lg:px-8 lg:pt-32 mx-auto ">
+                <div className="grid items-center md:grid-cols-2 gap-8 lg:gap-12">
+                    <LoginCopy />
+                    <div className="flex image-full w-full h-full">
+                        <LoginCard />
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
 }
-
 
 export default LoginPage

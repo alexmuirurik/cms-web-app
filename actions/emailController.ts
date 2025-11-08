@@ -7,7 +7,7 @@ import { createWriter } from './userController'
 import { getCompanyById } from './companyController'
 import prisma from '@/prisma/prisma'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+const resend = new Resend(process.env.AUTH_RESEND_KEY)
 
 export const inviteWriter = async (
     Invitedata: z.infer<typeof inviteWriterFormSchema>

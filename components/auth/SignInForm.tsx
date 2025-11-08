@@ -1,17 +1,32 @@
-import Link from 'next/link'
-import { signIn } from '@/auth'
+'use client'
 
-const SignInForm = ({ provider, className, children }: { provider?:  'google' | 'github' | 'credentials', className?: string, children: any }) => {
-	const Signin = async (event:any) => {
-        'use server'
-		const signin = await signIn(provider)
-		return signin
-	}
-	return (
-		<form action={Signin} method="post" className={'w-full ' + className}>
-			{children}
-		</form>
-	)
+import { signIn } from 'next-auth/react'
+import { Dispatch, SetStateAction } from 'react'
+
+const SignInForm = ({
+    setLoading,
+    provider,
+    className,
+    children,
+}: {
+    setLoading: Dispatch<SetStateAction<boolean>>
+    provider?: 'google' | 'github' | 'credentials'
+    className?: string
+    children: any
+}) => {
+    const Signin = async (event: any) => {
+        setLoading(true)
+        const sign = await signIn(provider)
+        setTimeout(() => {
+            setLoading(false)
+        }, 8000)
+    }
+
+    return (
+        <form action={Signin} method="post" className={'w-full ' + className}>
+            {children}
+        </form>
+    )
 }
 
 export default SignInForm

@@ -25,7 +25,7 @@ export const taskFormSchema = z.object({
     title: z.string(),
     instructions: z.string(),
     wordcount: z.string(),
-    status: z.string().default('PENDING_WRITER'),
+    status: z.string().default('UNASSIGNED'),
     deadline: z.string(),
     companyId: z.string(),
     categoryId: z.string().optional(),
