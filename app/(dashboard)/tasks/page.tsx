@@ -2,14 +2,14 @@ import PageHeader from '@/components/layouts/PageHeader'
 import { Input } from '@/components/ui/input'
 import CardTasks from '@/components/cards/cardTasks'
 import { auth } from '@/auth'
-import { getCompany } from '@/actions/companyController'
+import { getCompanyById } from '@/actions/companyController'
 import { redirect } from 'next/navigation'
 import { getTasks } from '@/actions/taskController'
 import AddTask from '@/components/forms/addtask'
 
 const TasksPage = async () => {
     const session = await auth()
-    const company = await getCompany(session?.user?.id as string)
+    const company = await getCompanyById(session?.user?.companyId as string)
     if (!company) return redirect('/settings')
 
     const tasks = await getTasks(company.id as string) ?? []

@@ -1,8 +1,7 @@
-import React from 'react'
 import PageHeader from '@/components/layouts/PageHeader'
 import AddTask from '@/components/forms/addtask'
 import { auth } from '@/auth'
-import { getCompany } from '@/actions/companyController'
+import { getCompanyById } from '@/actions/companyController'
 import { notFound, redirect } from 'next/navigation'
 import { getTasks } from '@/actions/taskController'
 import { getWriterByID } from '@/actions/userController'
@@ -14,7 +13,7 @@ const SingleWriter = async ({
     params: Promise<{ id: string }>
 }) => {
     const session = await auth()
-    const company = await getCompany(session?.user?.id as string)
+    const company = await getCompanyById(session?.user?.companyId as string)
     if (!company) return redirect('/settings')
 
     const writer = await getWriterByID((await params).id)

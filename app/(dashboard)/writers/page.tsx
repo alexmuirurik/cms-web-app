@@ -1,8 +1,7 @@
-import React from 'react'
 import PageHeader from '@/components/layouts/PageHeader'
 import InviteWriter from '@/components/forms/invitewriter'
 import { auth } from '@/auth'
-import { getCompany } from '@/actions/companyController'
+import { getCompanyById } from '@/actions/companyController'
 import { redirect } from 'next/navigation'
 import { getWriters } from '@/actions/userController'
 import WritersCard from '@/components/cards/writerscard'
@@ -10,8 +9,9 @@ import WritersCard from '@/components/cards/writerscard'
 
 const Writers = async () => {
     const session = await auth()
-    const company = await getCompany(session?.user?.id as string)
+    const company = await getCompanyById(session?.user?.companyId as string)
     if(!company) return redirect('/settings')
+        
     const writers = await getWriters(company.id) ?? []
     return (
         <div className="page-wrapper">

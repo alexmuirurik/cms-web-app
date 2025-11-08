@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { auth } from '@/auth'
-import { getCompany } from '@/actions/companyController'
+import { getCompanyById } from '@/actions/companyController'
 import { redirect } from 'next/navigation'
 import UserCard from '@/components/cards/userCard'
 import { getWriters } from '@/actions/userController'
@@ -12,7 +12,7 @@ import { getMessages } from '@/actions/emailController'
 
 const Messages = async () => {
     const session = await auth()
-    const company = await getCompany(session?.user?.id as string)
+    const company = await getCompanyById(session?.user?.companyId as string)
     if (!company) return redirect('/settings')
 
     const writers = (await getWriters(company.id)) ?? []

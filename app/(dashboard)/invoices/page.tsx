@@ -1,15 +1,14 @@
-import React from 'react'
 import PageHeader from '@/components/layouts/PageHeader'
 import { Button } from '@/components/ui/button'
 import { auth } from '@/auth'
-import { getCompany } from '@/actions/companyController'
+import { getCompanyById } from '@/actions/companyController'
 import { redirect } from 'next/navigation'
 import { getInvoices } from '@/actions/invoiceController'
 import CardInvoices from '@/components/cards/cardInvoices'
 
 const Invoices = async () => {
     const session = await auth()
-    const company = await getCompany(session?.user?.id as string)
+    const company = await getCompanyById(session?.user?.companyId as string)
     if (!company) return redirect('/settings')
 
     const invoices = (await getInvoices(company.id)) ?? []

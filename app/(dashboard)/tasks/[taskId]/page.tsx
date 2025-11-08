@@ -1,5 +1,5 @@
 import { auth } from '@/auth'
-import { getCompany } from '@/actions/companyController'
+import { getCompanyById } from '@/actions/companyController'
 import { notFound, redirect } from 'next/navigation'
 import WriteTask from '@/components/forms/writetask'
 import TaskDetails from '@/components/cards/taskdetails'
@@ -14,7 +14,7 @@ const SingleTaskPage = async ({
     params: Promise<{ taskId: string }>
 }) => {
     const session = await auth()
-    const company = await getCompany(session?.user?.id as string)
+    const company = await getCompanyById(session?.user?.companyId as string)
     if (!company) return redirect('/settings')
 
     const task = await getTaskById((await params).taskId)

@@ -2,13 +2,13 @@ import CardBillings from '@/components/cards/cardBillings'
 import PageHeader from '@/components/layouts/PageHeader'
 import { Button } from '@/components/ui/button'
 import { auth } from '@/auth'
-import { getCompany } from '@/actions/companyController'
+import { getCompanyById } from '@/actions/companyController'
 import { redirect } from 'next/navigation'
 import { getBillings } from '@/actions/billingController'
 
 const Billings = async () => {
     const session = await auth()
-    const company = await getCompany(session?.user?.id as string)
+    const company = await getCompanyById(session?.user?.companyId as string)
     if (!company) return redirect('/settings')
 
     const billings = (await getBillings(company.id)) ?? []

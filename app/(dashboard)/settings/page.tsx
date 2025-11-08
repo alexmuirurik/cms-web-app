@@ -3,9 +3,13 @@ import CreateCompany from '@/components/forms/createcompany'
 import { Button } from '@/components/ui/button'
 import { auth } from '@/auth'
 import { getCompany } from '@/actions/companyController'
+import { UserRole } from '@prisma/client'
+import { redirect } from 'next/navigation'
 
 const Settings = async () => {
     const session = await auth()
+    if (session?.user.role !== UserRole.ADMIN) return redirect('/dashboard')
+        
     const user = session?.user
     const company = await getCompany(user?.id as string)
     return (
