@@ -1,7 +1,7 @@
 'use client'
 import { toTitleCase } from '@/lib/utils'
 import { WriterWithUser } from '@/prisma/types'
-import { Task } from '@prisma/client'
+import { Task, Writer } from '@prisma/client'
 import { taskActions } from '@/lib/tastLib'
 import { ActionsThemselves } from '@/lib/taskTypes'
 
@@ -17,6 +17,7 @@ const TaskDetails = ({
     possibleActions: ActionsThemselves[]
 }) => {
     const action = taskActions.find((action) => action.status === task.status)
+    const writer = writers.find((writer) => writer.id === task.writerId)
     return (
         <div className="left space-y-3">
             <div className="flex items-center justify-between gap-2 w-full">
@@ -25,6 +26,7 @@ const TaskDetails = ({
                         key={action.value}
                         task={task}
                         writers={writers}
+                        writer={writer}
                     />
                 ))}
             </div>

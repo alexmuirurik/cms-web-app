@@ -36,7 +36,7 @@ export type ActionsThemselves = {
         }: {
             task: Task
             writers: WriterWithUser[]
-            writer: Writer
+            writer?: Writer
         }) => JSX.Element
     }
 

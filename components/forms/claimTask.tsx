@@ -17,6 +17,8 @@ import { Button } from '../ui/button'
 import { claimTask } from '@/actions/taskController'
 import { TaskStatus } from '@/lib/taskTypes'
 import { WriterWithUser } from '@/prisma/types'
+import { useToast } from '../ui/use-toast'
+import { useRouter } from 'next/navigation'
 
 const ClaimTask = ({
     task,
@@ -25,27 +27,40 @@ const ClaimTask = ({
 }: {
     task: Task
     writers: WriterWithUser[]
-    writer: Writer
+    writer?: Writer
 }) => {
     const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(false)
+    const { toast } = useToast()
+    const router = useRouter()
     const claimTaskAsync = async () => {
         setLoading(true)
-        const claim = await claimTask({
-            taskId: task.id,
-            writerId: writer.id,
-            status: TaskStatus.IN_PROGRESS,
-        })
-        if (claim) {
-            setLoading(false)
-            return setOpen(false)
+        try {
+            const claim = await claimTask({
+                taskId: task.id,
+                writerId: writer?.id as string,
+                status: TaskStatus.IN_PROGRESS,
+            })
+            if (claim) {
+                toast({
+                    title: 'Task Claimed',
+                    description: 'Task Claimed Successfully. Happy Writing!',
+                    variant: 'success',
+                })
+                router.refresh()
+                setLoading(false)
+                return setOpen(false)
+            }
+        } catch (error) {
+            console.log(error)
         }
+
         setLoading(false)
     }
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button className="w-full" variant="destructive">
+                <Button className="bg-teal-600 hover:bg-teal-500 w-full">
                     <span className="text-nowrap">Claim Task</span>
                 </Button>
             </DialogTrigger>
@@ -68,9 +83,9 @@ const ClaimTask = ({
                         </Button>
                     </DialogClose>
                     <LoadingButton
+                        className="bg-teal-600 hover:bg-teal-500"
                         loading={loading}
-                        variant="destructive"
-                        onClick={() => claimTaskAsync()}
+                        onClick={claimTaskAsync}
                     >
                         Claim Task
                     </LoadingButton>

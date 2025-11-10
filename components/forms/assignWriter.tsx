@@ -31,11 +31,9 @@ import { TaskStatus } from '@/lib/taskTypes'
 const AssignWriter = ({
     task,
     writers,
-    writer
 }: {
     task: Task
     writers: WriterWithUser[]
-    writer: Writer 
 }) => {
     const [loading, setLoading] = useState(false)
     const [open, setOpen] = useState(false)

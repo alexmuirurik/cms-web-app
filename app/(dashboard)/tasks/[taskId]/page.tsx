@@ -31,7 +31,12 @@ const SingleTaskPage = async ({
         <div className="page-wrapper">
             <div className="flex gap-4">
                 <div className="sm:order-2 w-full sm-5/12 md:w-4/12 lg:w-3/12">
-                    <TaskDetails task={task} possibleActions={possibleActions} writers={writers} user={session?.user} />
+                    <TaskDetails
+                        task={task}
+                        possibleActions={possibleActions}
+                        writers={writers}
+                        user={session?.user}
+                    />
                 </div>
                 <div className="w-full sm-7/12 md:w-8/12 lg:w-9/12">
                     <WriteTask task={task} />

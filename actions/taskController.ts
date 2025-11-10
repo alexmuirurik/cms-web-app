@@ -2,7 +2,11 @@
 import { TaskStatus } from '@/lib/taskTypes'
 import { slugify } from '@/lib/utils'
 import prisma from '@/prisma/prisma'
-import { assignWriterFormSchema, taskFormSchema, writeTaskFormSchema } from '@/prisma/schema'
+import {
+    assignWriterFormSchema,
+    taskFormSchema,
+    writeTaskFormSchema,
+} from '@/prisma/schema'
 import { z } from 'zod'
 
 export const getTaskById = async (taskId: string) => {
@@ -53,14 +57,16 @@ export const getTasks = async (companyId: string) => {
     }
 }
 
-export const claimTask = async (data: z.infer<typeof assignWriterFormSchema>) => {
+export const claimTask = async (
+    data: z.infer<typeof assignWriterFormSchema>
+) => {
     try {
         const claimTask = await prisma.task.update({
             where: {
                 id: data.taskId,
-                writerId: data.writerId,
             },
             data: {
+                writerId: data.writerId,
                 status: TaskStatus.IN_PROGRESS,
             },
         })
