@@ -1,6 +1,6 @@
 'use client'
 
-import { getTimeDifference, toTitleCase } from '@/lib/utils'
+import { toTitleCase } from '@/lib/utils'
 import { WriterWithUser } from '@/prisma/types'
 import { Task, Writer } from '@prisma/client'
 import { ActionsThemselves, TaskStatus } from '@/lib/taskTypes'

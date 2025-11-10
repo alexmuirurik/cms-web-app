@@ -11,7 +11,7 @@ const WriterDetails = async ({
 }) => {
     return (
         <div className="md:flex space-y-4 md:space-y-0 gap-4 mt-4">
-            <div className="w-full border">
+            <div className="md:w-7/12 lg:w-8/12 border">
                 <CardTasks tasks={tasks} />
             </div>
             <div className="bg-transparent md:w-5/12 lg:w-4/12 border">

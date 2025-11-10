@@ -23,7 +23,7 @@ import { useState } from 'react'
 import { Avatar } from '@radix-ui/react-avatar'
 import { AvatarImage } from '../ui/avatar'
 import { LoadingButton } from '../ui/loadingbtn'
-import { updateTask } from '@/actions/taskController'
+import { claimTask,} from '@/actions/taskController'
 import { useToast } from '../ui/use-toast'
 import { useRouter } from 'next/navigation'
 import { TaskStatus } from '@/lib/taskTypes'
@@ -78,18 +78,25 @@ const AssignWriter = ({
         data: z.infer<typeof assignWriterFormSchema>
     ) => {
         setLoading(true)
-        const writer = writers.find((writer) => writer.id === data.writerId)
-        const assignWriter = await updateTask(data)
-        if (assignWriter) {
+        try {
+            const assignWriter = await claimTask(data)
+            if (assignWriter) {
+                toast({
+                    title: 'Writer Assigned',
+                    description: 'Writer Assigned Successfully. Happy Writing!',
+                    variant: 'success',
+                })
+                setOpen(false)
+                return router.refresh()
+            }
+        } catch (error: any) {
             toast({
-                title: 'Writer Assigned',
-                description: 'Writer Assigned Successfully. Happy Writing!',
-                variant: 'success',
+                title: 'Error Claiming Task',
+                description: `Error Claiming Task: ${error.message}`,
+                variant: 'destructive',
             })
-            setOpen(false)
-            return router.refresh()
+            setLoading(false)
         }
-        setLoading(false)
     }
 
     return (

@@ -187,7 +187,7 @@ enum CategoryStatus {
 
 model Task {
     id           String         @id @default(auto()) @map("_id") @db.ObjectId
-    slug         String         @unique
+    slug         String         
     title        String
     wordcount    Int
     instructions String         @db.String
@@ -199,18 +199,18 @@ model Task {
     editorId     String?        @db.ObjectId
     writerId     String?        @db.ObjectId
     invoiceId    String?        @db.ObjectId
-    totalWords   Int?            @default(0)
-    totalPay     Float?          @default(0)
+    totalWords   Int?           @default(0)
+    totalPay     Float?         @default(0)
     writer       Writer?        @relation(fields: [writerId], references: [id])
     editor       Editor?        @relation(fields: [editorId], references: [id])
     invoice      Invoice?       @relation(fields: [invoiceId], references: [id])
     category     Category?      @relation(fields: [categoryId], references: [id])
     company      Company        @relation(fields: [companyId], references: [id])
-    claimedAt    DateTime?      @default(now())
-    submittedAt  DateTime?      @default(now())
-    editedAt     DateTime?      @default(now())
-    approvedAt   DateTime?      @default(now())
-    rejectedAt   DateTime?      @default(now())
+    claimedAt    DateTime?      
+    submittedAt  DateTime?      
+    editedAt     DateTime?      
+    approvedAt   DateTime?      
+    rejectedAt   DateTime?      
     createdAt    DateTime       @default(now())
     updatedAt    DateTime       @updatedAt
 }

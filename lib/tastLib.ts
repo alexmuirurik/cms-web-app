@@ -9,7 +9,7 @@ import {
     Writer,
     WriterStatus,
 } from '@prisma/client'
-import { getTimeDifference } from './utils'
+import { getDeadline } from './utils'
 
 
 
@@ -50,7 +50,7 @@ export const getTaskDeadline = (task: Task) => {
     }
 
     if (task.status === TaskStatus.IN_PROGRESS) {
-        return getTimeDifference(task.createdAt, task.createdAt)
+        return getDeadline(task)
     }
 
     if(task.status === TaskStatus.IN_REVIEW) {

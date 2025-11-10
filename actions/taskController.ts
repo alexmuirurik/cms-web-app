@@ -51,13 +51,13 @@ export const getTasks = async (companyId: string) => {
                 companyId: companyId,
             },
             orderBy: {
-                createdAt: 'desc',
+                status: 'asc',
             },
         })
 
         return tasks
     } catch (err) {
-        console.log('We faced an error getting folder tasks ' + err)
+        throw new Error('We faced an error getting folder tasks ' + err)
     }
 }
 
@@ -78,7 +78,7 @@ export const claimTask = async (
 
         return claimTask
     } catch (err) {
-        console.log('We faced an error claiming a task ' + err)
+        throw new Error('We faced an error claiming a task ' + err)
     }
 }
 

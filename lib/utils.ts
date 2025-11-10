@@ -1,3 +1,4 @@
+import { Task } from '@prisma/client'
 import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
@@ -67,9 +68,11 @@ export const getDaysAgo = (givenDate: Date) => {
     return 'Just now'
 }
 
-export const getTimeDifference = (oldDate: Date, newDate: Date) => {
-    alert(newDate.getTime() - oldDate.getTime())
-    const diffMs = Math.abs(newDate.getTime() - oldDate.getTime())
+export const getDeadline = (task: Task) => {
+    const createdAt = new Date(task.createdAt)
+    const deadlineDate = createdAt.setDate(createdAt.getDate() + task.deadline)
+    const diffMs = new Date(deadlineDate).getTime() - new Date().getTime()
+    console.log(diffMs)
     const days = Math.floor(diffMs / (1000 * 60 * 60 * 24))
     const hours = Math.floor((diffMs / (1000 * 60 * 60)) % 24)
     const minutes = Math.floor((diffMs / (1000 * 60)) % 60)

@@ -56,24 +56,23 @@ const CardTasks = ({ tasks }: { tasks: Task[] }) => {
                                 href={`/tasks/${task.id}`}
                             >
                                 <FaBuffer className="text-base text-blue-600" />
-                                {task.title}
+                                <span className="text-nowrap">
+                                    {task.title}
+                                </span>
                             </Link>
                         </TableCell>
-                        <TableCell>
-                            {trimWords(task.instructions, 10)}
-                        </TableCell>
+                        {/* <TableCell>
+                            <span>{trimWords(task.instructions, 10)}</span>
+                        </TableCell> */}
                         <TableCell>{task.wordcount}</TableCell>
                         <TableCell className="text-end text-green-600">
-                            <Badge
-                                className="border border-neutral-300 text-sm font-light text-nowrap rounded-md px-2 py-1"
-                                variant="outline"
-                            >
+                            <span className="border border-neutral-300 text-sm font-light rounded-md px-2 py-1 text-nowrap">
                                 {toTitleCase(
                                     task.status
                                         .replaceAll('_', ' ')
                                         .toLocaleLowerCase()
                                 )}
-                            </Badge>
+                            </span>
                         </TableCell>
                     </TableRow>
                 ))}
