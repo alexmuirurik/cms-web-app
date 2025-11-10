@@ -1,7 +1,7 @@
 import { Resend } from 'resend';
 import GreetingsEmail from '@/components/emails/greetings';
-import { resend } from '@/actions/emailController';
 
+const resend = new Resend(process.env.AUTH_RESEND_KEY)
 export const POST = async () => {
     try {
         const { data, error } = await resend.emails.send({

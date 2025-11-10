@@ -1,11 +1,12 @@
-import { Prisma, UserRole } from "@prisma/client"
+import { Prisma, UserRole } from '@prisma/client'
 
 export type SessionUser = {
     id: string
-    name: string
-    email: string
-    role: UserRole
-    companyId: string
+    name?: string | null | undefined
+    email?: string | null | undefined
+    image?: string | undefined
+    role?: any
+    companyId?: string | undefined
 }
 
 export type WriterWithUser = Prisma.WriterGetPayload<{
@@ -16,7 +17,7 @@ export type WriterWithUser = Prisma.WriterGetPayload<{
 
 export type InvoiceWithCompany = Prisma.InvoiceGetPayload<{
     include: {
-        company: true,
+        company: true
         tasks: true
     }
 }>

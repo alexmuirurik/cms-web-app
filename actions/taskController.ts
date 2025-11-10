@@ -30,19 +30,6 @@ export const getTaskById = async (taskId: string) => {
     }
 }
 
-export const getTask = async (slug: string) => {
-    try {
-        const task = await prisma.task.findUnique({
-            where: {
-                slug: slug,
-            },
-        })
-
-        return task
-    } catch (err) {
-        console.log('We faced an error getting a single task ' + err)
-    }
-}
 
 export const getTasks = async (companyId: string) => {
     try {
