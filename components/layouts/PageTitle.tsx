@@ -1,12 +1,5 @@
-'use client'
-import React from 'react'
-import { usePathname } from 'next/navigation'
-import { routes } from './SideList'
-
-const PageTitle = () => {
-    const pathname = usePathname()
-    const pagename = routes.find(route => route.link === pathname)
-    return <>{pagename?.name}</>
+const PageTitle = ({ name }: { name: string }) => {
+    return <h4 className="font-bold text-neutral-600 text-lg">{name}</h4>
 }
 
 export default PageTitle

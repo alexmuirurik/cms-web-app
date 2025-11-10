@@ -1,9 +1,11 @@
 'use client'
-import { toTitleCase } from '@/lib/utils'
+
+import { getTimeDifference, toTitleCase } from '@/lib/utils'
 import { WriterWithUser } from '@/prisma/types'
 import { Task, Writer } from '@prisma/client'
-import { taskActions } from '@/lib/tastLib'
-import { ActionsThemselves } from '@/lib/taskTypes'
+import { ActionsThemselves, TaskStatus } from '@/lib/taskTypes'
+import { taskActions } from '@/lib/taskActions'
+import { getTaskDeadline } from '@/lib/tastLib'
 
 const TaskDetails = ({
     user,
@@ -18,6 +20,8 @@ const TaskDetails = ({
 }) => {
     const action = taskActions.find((action) => action.status === task.status)
     const writer = writers.find((writer) => writer.id === task.writerId)
+    const notInProgress = task.status !== TaskStatus.IN_PROGRESS
+    const deadline = getTaskDeadline(task)
     return (
         <div className="left space-y-3">
             <div className="flex items-center justify-between gap-2 w-full">
@@ -49,7 +53,7 @@ const TaskDetails = ({
                 </div>
                 <div className="flex justify-between items-center ">
                     <span className="text-sm font-bold">Deadline</span>
-                    <span className="text-xs">{`${task.deadline} days`}</span>
+                    <span className="text-xs">{deadline}</span>
                 </div>
             </div>
 

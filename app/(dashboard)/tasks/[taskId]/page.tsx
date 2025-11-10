@@ -4,9 +4,9 @@ import { notFound, redirect } from 'next/navigation'
 import WriteTask from '@/components/forms/writetask'
 import TaskDetails from '@/components/cards/taskdetails'
 import { getTaskById } from '@/actions/taskController'
-import { taskActions } from '@/lib/tastLib'
 import { getWriters } from '@/actions/userController'
 import { UserRole } from '@/lib/taskTypes'
+import { taskActions } from '@/lib/taskActions'
 
 const SingleTaskPage = async ({
     params,

@@ -4,6 +4,7 @@ import { slugify } from '@/lib/utils'
 import prisma from '@/prisma/prisma'
 import {
     assignWriterFormSchema,
+    submitTaskFormSchema,
     taskFormSchema,
     writeTaskFormSchema,
 } from '@/prisma/schema'
@@ -49,6 +50,9 @@ export const getTasks = async (companyId: string) => {
             where: {
                 companyId: companyId,
             },
+            orderBy: {
+                createdAt: 'desc',
+            },
         })
 
         return tasks
@@ -68,6 +72,7 @@ export const claimTask = async (
             data: {
                 writerId: data.writerId,
                 status: TaskStatus.IN_PROGRESS,
+                claimedAt: new Date(),
             },
         })
 
@@ -120,6 +125,15 @@ export const updateTask = async (data: z.infer<typeof writeTaskFormSchema>) => {
         return updatetask
     } catch (err) {
         console.log('We faced an error updating a task ' + err)
+    }
+}
+
+export const submitContent = async (data: z.infer<typeof submitTaskFormSchema>) => {
+    try {
+        const submitContent = await updateTask(data)
+        return submitContent
+    } catch (err) {
+        console.log('We faced an error submitting content ' + err)
     }
 }
 

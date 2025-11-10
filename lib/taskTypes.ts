@@ -43,9 +43,5 @@ export type ActionsThemselves = {
 export type TaskAction = {
     status: TaskStatus
     actions: ActionsThemselves[]
-    messages: {
-        role: UserRole
-        message: string
-    }[]
     color: string
 }

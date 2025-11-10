@@ -38,6 +38,13 @@ export const assignWriterFormSchema = z.object({
     status: z.string().default('PENDING_WRITER'),
 })
 
+export const submitTaskFormSchema = z.object({
+    taskId: z.string(),
+    title: z.string(),
+    content: z.string(),
+    status: z.string().optional(),
+})
+
 export const writeTaskFormSchema = z.object({
     taskId: z.string(),
     title: z.string().optional(),

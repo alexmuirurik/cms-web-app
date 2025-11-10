@@ -45,7 +45,7 @@ const AssignWriter = ({
         resolver: zodResolver(assignWriterFormSchema),
         defaultValues: {
             taskId: task.id,
-            status: TaskStatus.PENDING_WRITER,
+            status: TaskStatus.IN_PROGRESS,
         },
     })
 
@@ -79,7 +79,6 @@ const AssignWriter = ({
     ) => {
         setLoading(true)
         const writer = writers.find((writer) => writer.id === data.writerId)
-
         const assignWriter = await updateTask(data)
         if (assignWriter) {
             toast({

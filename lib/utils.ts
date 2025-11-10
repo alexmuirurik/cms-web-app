@@ -64,5 +64,28 @@ export const getDaysAgo = (givenDate: Date) => {
         return `${seconds} seconds ago`
     }
 
-	return 'Just now'
+    return 'Just now'
+}
+
+export const getTimeDifference = (oldDate: Date, newDate: Date) => {
+    alert(newDate.getTime() - oldDate.getTime())
+    const diffMs = Math.abs(newDate.getTime() - oldDate.getTime())
+    const days = Math.floor(diffMs / (1000 * 60 * 60 * 24))
+    const hours = Math.floor((diffMs / (1000 * 60 * 60)) % 24)
+    const minutes = Math.floor((diffMs / (1000 * 60)) % 60)
+    const seconds = Math.floor((diffMs / 1000) % 60)
+
+    if (days > 0) {
+        return `${days} days ${hours} hours`
+    }
+
+    if (hours > 0) {
+        return `${hours} hours ${minutes} minutes`
+    }
+
+    if (minutes > 0) {
+        return `${minutes} minutes ${seconds} seconds`
+    }
+
+    return `${seconds} seconds`
 }
