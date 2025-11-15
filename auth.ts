@@ -6,12 +6,12 @@ import Google from 'next-auth/providers/google'
 import { PrismaAdapter } from '@auth/prisma-adapter'
 import prisma from './prisma/prisma'
 import { UserRole } from '@prisma/client'
-import { getCompany } from './actions/companyController'
+import { getCompany } from './src/actions/companyController'
 import {
     getEditorById,
     getWriterByEmail,
     getWriterByID,
-} from './actions/userController'
+} from './src/actions/userController'
 
 export const config = {
     adapter: PrismaAdapter(prisma),
